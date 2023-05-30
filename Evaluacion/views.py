@@ -6,4 +6,4 @@ def index(request):
     return HttpResponse("Hello, world. You're at the Evaluacion index.")
 
 def login(request):
-    return HttpResponse("Hello, world. You're at the Evaluacion login.")
+    return render(request, 'Evaluacion/login.html', context=None)
