@@ -27,7 +27,7 @@ def loginn(request):
             return redirect('evaluacion:index')
         
         else:
-            return HttpResponse("Usuario no valido")
+            return render(request, 'Evaluacion/login.html', context={'error_message': 'Usuario o contraseña incorrectos'})
     else:
         return render(request, 'Evaluacion/login.html')
 

@@ -12,6 +12,9 @@
 <body>
   <div class="container">
     <h2>Iniciar sesión</h2>
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
     <a href="{% url 'evaluacion:index' %}">Índice</a>
     <form action="{% url 'evaluacion:login' %}" method="post">
         {% csrf_token %}
