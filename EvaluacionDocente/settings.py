@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'EvaluacionDocente.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Proyectobd',
+        'NAME': 'Proyecto3',
         'USER': 'root',
         'PASSWORD': 'Borussiadortmund',
         'HOST': 'localhost',
