@@ -141,3 +141,49 @@ GRANT EXECUTE ON PROCEDURE sp_aggpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_modpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_delpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Directivo;
+
+
+-- Procedimientos para inserción de Estudiantes y Profesores
+DROP PROCEDURE IF EXISTS sp_insEstudiante;
+DROP PROCEDURE IF EXISTS sp_insProfesor;
+DROP FUNCTION IF EXISTS generar_usuario;
+
+DELIMITER $$
+CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45),
+PAPA float, PAPPI float, PA float, grado varchar(45), codcarrera INT)
+	BEGIN
+		DECLARE persona_id INT;
+        
+		INSERT INTO persona(per_Usuario, per_Nombres, per_Apellido, per_Rol) VALUES 
+        (generar_usuario(nombres, apellidos), nombres, apellidos, "Estudiante");
+        
+        SET persona_id = LAST_INSERT_ID();
+        
+        INSERT INTO estudiante(est_ID, est_PAPA, est_PAPPI, est_PA, est_Evaluacion, est_Grado, car_Codigo)
+        VALUES (persona_id, PAPA, PAPPI, PA, 0, grado, codcarrera);
+         
+    END $$
+    
+CREATE PROCEDURE sp_insProfesor(nombres VARCHAR(45), apellidos VARCHAR(45))
+	BEGIN
+		DECLARE persona_id INT;
+        
+        INSERT INTO persona(per_Usuario, per_Nombres, per_Apellido, per_Rol) VALUES 
+        (generar_usuario(nombres, apellidos), nombres, apellidos, "Profesor");
+        
+        SET persona_id = LAST_INSERT_ID();
+        
+        INSERT INTO profesor(pro_ID) VALUES (persona_id);
+	END $$
+    
+-- Función para generar usuario
+CREATE FUNCTION generar_usuario(nombre VARCHAR(45), apellido VARCHAR(45)) RETURNS VARCHAR(10) DETERMINISTIC
+	BEGIN
+		DECLARE usuario VARCHAR(10);
+        SET usuario = CONCAT(SUBSTRING(LOWER(nombre), 1, 5), SUBSTRING(LOWER(apellido), 1, 5));
+        SET usuario = REPLACE(usuario, ' ', '');
+        RETURN usuario;
+    END $$
+    
+DELIMITER ;
+    
