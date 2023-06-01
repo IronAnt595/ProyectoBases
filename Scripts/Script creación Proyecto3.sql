@@ -1,4 +1,3 @@
-
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
@@ -75,7 +74,7 @@ CREATE TABLE IF NOT EXISTS Estudiante (
   FOREIGN KEY (car_Codigo)
   REFERENCES Carrera (car_Codigo),
   FOREIGN KEY (est_ID)
-  REFERENCES Persona (est_ID));
+  REFERENCES Persona (per_ID));
 
 
 -- -----------------------------------------------------
