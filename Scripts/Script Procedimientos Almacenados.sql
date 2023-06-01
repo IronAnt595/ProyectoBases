@@ -115,7 +115,7 @@ CREATE PROCEDURE sp_delpregunta (numpre INT)
         WHERE pre_Numero=numpre;
     END $$
 
-DELIMITER 
+DELIMITER ;
 
 
 -- Asignación de permisos
