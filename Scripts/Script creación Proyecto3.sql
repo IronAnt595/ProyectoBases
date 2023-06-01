@@ -1,8 +1,8 @@
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS proyecto3 ;
-CREATE SCHEMA IF NOT EXISTS proyecto3;
+-- DROP SCHEMA IF EXISTS proyecto3 ;
+-- CREATE SCHEMA IF NOT EXISTS proyecto3;
 USE proyecto3 ;
 
 
@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Persona (
   per_Usuario VARCHAR(45) NOT NULL,
   per_Nombres VARCHAR(45) NOT NULL,
   per_Apellidos VARCHAR(45) NOT NULL,
+  per_Rol VARCHAR(45) NOT NULL,
   PRIMARY KEY (per_ID));
 
 -- -----------------------------------------------------
