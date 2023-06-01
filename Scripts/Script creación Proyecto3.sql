@@ -6,6 +6,19 @@ DROP SCHEMA IF EXISTS proyecto3 ;
 CREATE SCHEMA IF NOT EXISTS proyecto3;
 USE proyecto3 ;
 
+
+-- -----------------------------------------------------
+-- Table Persona
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS Persona ;
+
+CREATE TABLE IF NOT EXISTS Persona (
+  per_ID INT NOT NULL AUTO_INCREMENT,
+  per_Usuario VARCHAR(45) NOT NULL,
+  per_Nombres VARCHAR(45) NOT NULL,
+  per_Apellidos VARCHAR(45) NOT NULL,
+  PRIMARY KEY (per_ID));
+
 -- -----------------------------------------------------
 -- Table Sede
 -- -----------------------------------------------------
@@ -52,9 +65,6 @@ DROP TABLE IF EXISTS Estudiante ;
 
 CREATE TABLE IF NOT EXISTS Estudiante (
   est_ID INT NOT NULL,
-  est_Usuario VARCHAR(45) NOT NULL,
-  est_Nombres VARCHAR(45) NOT NULL,
-  est_Apellidos VARCHAR(45) NOT NULL,
   est_PAPA FLOAT NOT NULL,
   est_PAPPI FLOAT NOT NULL,
   est_PA FLOAT NOT NULL,
@@ -63,7 +73,9 @@ CREATE TABLE IF NOT EXISTS Estudiante (
   car_Codigo INT NOT NULL,
   PRIMARY KEY (est_ID),
   FOREIGN KEY (car_Codigo)
-  REFERENCES Carrera (car_Codigo));
+  REFERENCES Carrera (car_Codigo),
+  FOREIGN KEY (est_ID)
+  REFERENCES Persona (est_ID));
 
 
 -- -----------------------------------------------------
@@ -88,10 +100,9 @@ DROP TABLE IF EXISTS Profesor ;
 
 CREATE TABLE IF NOT EXISTS Profesor (
   pro_ID INT NOT NULL,
-  pro_Usuario VARCHAR(45) NOT NULL,
-  pro_Nombres VARCHAR(45) NOT NULL,
-  pro_Apellidos VARCHAR(45) NOT NULL,
-  PRIMARY KEY (pro_ID));
+  PRIMARY KEY (pro_ID),
+  FOREIGN KEY (pro_ID)
+  REFERENCES Persona (per_ID));
 
 
 -- -----------------------------------------------------
