@@ -46,3 +46,17 @@ def informacionEstudiante(username):
         datos['PAPPI'] = resultado[3]
         datos['PA'] = resultado[4]
         return datos
+    
+def informacionAsignaturas(username):
+    with connection.cursor() as cursor:
+        datos = []
+        cursor.execute("call sp_gruposest(%s)",[username])
+        resultados = cursor.fetchall()
+        for resultado in resultados:
+            asignatura = {}
+            asignatura['codigogrupo'] = resultado[0]
+            asignatura['nombre'] = resultado[1]
+            asignatura['creditos'] = resultado[2]
+            asignatura['profesor'] = resultado[3]+" "+resultado[4]
+            datos.append(asignatura)
+        return datos
