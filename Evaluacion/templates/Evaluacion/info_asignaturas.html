@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información Asignaturas</title>
+</head>
+<body>
+    Información de Asignaturas:
+
+    {% if asignaturas %}
+        <table>
+            <tr>
+                <th>Código Grupo</th>
+                <th>Asignatura</th>
+                <th>Docente</th>
+            </tr>
+            {% for asignatura in asignaturas %}
+                <tr>
+                    <td>{{ asignatura.codigogrupo }}</td>
+                    <td>{{ asignatura.nombre }}</td>
+                    <td>{{ asignatura.profesor }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay asignaturas registradas.</p>
+    {% endif %}
+    <a href="{% url 'evaluacion:inicio' %}">Volver</a>
+    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+</body>
+</html>

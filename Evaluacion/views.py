@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .cron import *
+from pprint import pprint
 
 # Create your views here.
     
@@ -59,8 +60,16 @@ def inicio(request):
 def info_estudiante(request):
     if request.user.groups.filter(name='Estudiante').exists():
         datos=informacionEstudiante(request.user.username)
-
         return render(request, 'Evaluacion/info_estudiante.html', context=datos)
+    else:
+        return render(request, 'Evaluacion/error_login.html')
+    
+@login_required()
+def info_asignaturas(request):
+    if request.user.groups.filter(name='Estudiante').exists():
+        asignaturas=informacionAsignaturas(request.user.username)
+        context={'asignaturas':asignaturas}
+        return render(request, 'Evaluacion/info_asignaturas.html', context=context)
     else:
         return render(request, 'Evaluacion/error_login.html')
     
