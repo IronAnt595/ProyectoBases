@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio Estudiante</title>
+</head>
+<body>
+    <h1>¡Bienvenido, Estudiante!</h1>
+    A través de la presente página, en el menú derecho, podrá calificar el desempeño de los docentes con quienes estuvo en contacto en el presente periodo y el desarrollo de las asignaturas asociadas a su plan de estudios que cursó durante el semestre.
+    En el menú izquierdo, podrá consultar su información personal haciendo clic en “Estudiante” o consultar la información de las asignaturas que inscribió en este semestre en “Asignaturas”.
+    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    <a href="{% url 'evaluacion:info_encuesta' %}">Iniciar Encuesta</a>
+</body>
+</html>
