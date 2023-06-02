@@ -46,7 +46,7 @@ def loginn(request):
             return render(request, 'Evaluacion/login.html', context={'error_message': 'Usuario o contraseña incorrectos'})
     else:
         context = {"rol": request.session['rol']}
-        return render(request, 'Evaluacion/login.html')
+        return render(request, 'Evaluacion/login.html', context=context)
     
     
 def logoutt(request):
