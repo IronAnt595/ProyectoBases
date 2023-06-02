@@ -3,20 +3,11 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .procesos import proceso
 from .cron import crear_usuarios
 
 # Create your views here.
     
-def index(request):
-    # print(request.user.id)
-    # hola = proceso(request.user.id)
-    # return render(request, 'Evaluacion/index.html', context={'informacion': hola})
-    if not request.user.is_authenticated:
-        return HttpResponse("No estas logueado")
-    else:
-        return render(request, 'Evaluacion/index.html', context={'rol': request.session['rol']})
-    
+# Vistas de prueba:   
 def registro(request):
     usuarios=crear_usuarios()
     if len(usuarios) == 0:
