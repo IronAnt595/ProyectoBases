@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .procesos import proceso
 from .cron import crear_usuarios
 
@@ -40,7 +41,7 @@ def loginn(request):
         Usuario = authenticate(request, username=username, password=password, group=request.session['rol'])
         if Usuario is not None:
             login(request, Usuario)
-            return redirect('evaluacion:index')
+            return redirect('evaluacion:inicio')
         
         else:
             return render(request, 'Evaluacion/login.html', context={'error_message': 'Usuario o contraseña incorrectos'})
@@ -52,3 +53,20 @@ def loginn(request):
 def logoutt(request):
     logout(request)
     return redirect('evaluacion:bienvenida')
+
+@login_required()
+def inicio(request):
+    if request.user.groups.filter(name='Estudiante').exists():
+        return render(request, 'Evaluacion/inicio_estudiante.html')
+    elif request.user.groups.filter(name='Profesor').exists():
+        return render(request, 'Evaluacion/inicio_profesor.html')
+    elif request.user.groups.filter(name='Administrativo').exists():
+        return render(request, 'Evaluacion/inicio_administrativo.html')
+    return HttpResponse("No tienes permisos para ver esta pagina")
+    
+@login_required()
+def info_encuesta(request):
+    if request.user.groups.filter(name='Estudiante').exists():
+        return render(request, 'Evaluacion/info_encuesta.html')
+    else:
+        return HttpResponse("No tienes permisos para ver esta pagina")
