@@ -2,26 +2,32 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.db import connection
-# Create your views here.
+from .procesos import proceso
+from .cron import crear_usuarios
 
-def proceso(id):
-    with connection.cursor() as cursor:
-        cursor.execute("select * from estudiante where est_id=(%s)",[id])
-        resultado = cursor.fetchone()
-        return resultado
+# Create your views here.
     
 def index(request):
-    print(request.user.id)
-    hola = proceso(request.user.id)
-    return HttpResponse(hola)
+    # print(request.user.id)
+    # hola = proceso(request.user.id)
+    # return render(request, 'Evaluacion/index.html', context={'informacion': hola})
+    if not request.user.is_authenticated:
+        return HttpResponse("No estas logueado")
+    else:
+        return render(request, 'Evaluacion/index.html')
+    
+def registro(request):
+    usuarios=crear_usuarios()
+    if len(usuarios) == 0:
+        return HttpResponse("Usuarios no creados")
+    else:
+        return HttpResponse(str(len(usuarios))+" usuarios creados"+usuarios.__str__())
 
 def loginn(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         Usuario = authenticate(request, username=username, password=password)
-        print(Usuario)
         if Usuario is not None:
             login(request, Usuario)
             return redirect('evaluacion:index')
@@ -30,4 +36,8 @@ def loginn(request):
             return render(request, 'Evaluacion/login.html', context={'error_message': 'Usuario o contraseña incorrectos'})
     else:
         return render(request, 'Evaluacion/login.html')
+    
+def logoutt(request):
+    logout(request)
+    return redirect('evaluacion:login')
 
