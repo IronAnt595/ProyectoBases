@@ -147,6 +147,7 @@ GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Directivo;
 DROP PROCEDURE IF EXISTS sp_insEstudiante;
 DROP PROCEDURE IF EXISTS sp_insProfesor;
 DROP FUNCTION IF EXISTS generar_usuario;
+DROP FUNCTION IF EXISTS remover_acentos;
 
 DELIMITER $$
 CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45),
@@ -182,8 +183,53 @@ CREATE FUNCTION generar_usuario(nombre VARCHAR(45), apellido VARCHAR(45)) RETURN
 		DECLARE usuario VARCHAR(10);
         SET usuario = CONCAT(SUBSTRING(LOWER(nombre), 1, 5), SUBSTRING(LOWER(apellido), 1, 5));
         SET usuario = REPLACE(usuario, ' ', '');
+        SET usuario = remover_acentos(usuario);
+        SET usuario = LOWER(usuario);
         RETURN usuario;
     END $$
+
+-- Función para eliminar acentos
+CREATE FUNCTION remover_acentos(str TEXT) RETURNS TEXT DETERMINISTIC
+BEGIN
+    DECLARE normalized_str TEXT DEFAULT '';
+    DECLARE i INT DEFAULT 1;
+    DECLARE len INT DEFAULT CHAR_LENGTH(str);
+    DECLARE c CHAR(1);
+
+    WHILE (i <= len) DO
+        SET c = SUBSTRING(str, i, 1);
+
+        IF (c REGEXP '[ÁÀÂÄÃ]') THEN
+            SET c = 'A';
+        ELSEIF (c REGEXP '[áàâäã]') THEN
+            SET c = 'a';
+        ELSEIF (c REGEXP '[ÉÈÊË]') THEN
+            SET c = 'E';
+        ELSEIF (c REGEXP '[éèêë]') THEN
+            SET c = 'e';
+        ELSEIF (c REGEXP '[ÍÌÎÏ]') THEN
+            SET c = 'I';
+        ELSEIF (c REGEXP '[íìîï]') THEN
+            SET c = 'i';
+        ELSEIF (c REGEXP '[ÓÒÔÖÕ]') THEN
+            SET c = 'O';
+        ELSEIF (c REGEXP '[óòôöõ]') THEN
+            SET c = 'o';
+        ELSEIF (c REGEXP '[ÚÙÛÜ]') THEN
+            SET c = 'U';
+        ELSEIF (c REGEXP '[úùûü]') THEN
+            SET c = 'u';
+        ELSEIF (c = 'Ñ') THEN
+            SET c = 'N';
+        ELSEIF (c = 'ñ') THEN
+            SET c = 'n';
+        END IF;
+
+        SET normalized_str = CONCAT(normalized_str, c);
+        SET i = i + 1;
+    END WHILE;
+
+    RETURN normalized_str;
+END $$
     
 DELIMITER ;
-    
