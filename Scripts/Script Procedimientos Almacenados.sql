@@ -15,9 +15,14 @@ DROP PROCEDURE IF EXISTS sp_delpregunta;
 
 -- Obtener la lista de grupos en los que está inscrito un estudiante.
 DELIMITER $$
-CREATE PROCEDURE sp_gruposest (id INT)
+CREATE PROCEDURE sp_gruposest (usuario VARCHAR(45))
 	BEGIN
-		SELECT  gru_codigo,asi_Nombre,asi_creditos,pro_Nombres,pro_Apellidos FROM grupo_estudiante NATURAL JOIN grupo NATURAL JOIN profesor NATURAL JOIN asignatura WHERE est_ID=id;
+		DECLARE idest INT;
+        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
+        WHERE per_Usuario=usuario;
+		SELECT gru_codigo,asi_Nombre,asi_creditos,per_Nombres,per_Apellidos
+        FROM grupo_estudiante NATURAL JOIN grupo NATURAL JOIN asignatura JOIN persona ON pro_ID=per_ID
+		WHERE est_ID=idest;
     END $$
 
 -- Obtener la información personal de un estudiante (nombre, apellidos, etc.).
@@ -121,7 +126,7 @@ DELIMITER ;
 
 
 -- Asignación de permisos
-
+/*
 -- Para Estudiante
 GRANT EXECUTE ON PROCEDURE sp_gruposest TO rol_Estudiante;
 GRANT EXECUTE ON PROCEDURE sp_infoest TO rol_Estudiante;
@@ -143,13 +148,14 @@ GRANT EXECUTE ON PROCEDURE sp_aggpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_modpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_delpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Directivo;
-
+*/
 
 -- Procedimientos para inserción de Estudiantes y Profesores
 DROP PROCEDURE IF EXISTS sp_insEstudiante;
 DROP PROCEDURE IF EXISTS sp_insProfesor;
 DROP FUNCTION IF EXISTS generar_usuario;
 DROP FUNCTION IF EXISTS remover_acentos;
+DROP PROCEDURE IF EXISTS sp_creargrupos;
 
 DELIMITER $$
 CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45),
@@ -233,5 +239,29 @@ BEGIN
 
     RETURN normalized_str;
 END $$
+
+-- Procedimiento para crear grupos
+CREATE PROCEDURE sp_creargrupos(asinombre VARCHAR(45), anno INT, sem INT, pronombre VARCHAR(45), proapellido VARCHAR(45))
+	BEGIN 
+		DECLARE idasig INT;
+        DECLARE idprofesor INT;
+        DECLARE numgrupo INT;
+        SELECT asi_Codigo INTO idasig FROM asignatura WHERE asi_Nombre=asinombre;
+        
+        SELECT pro_ID INTO idprofesor FROM profesor JOIN persona ON pro_ID=per_ID
+        WHERE per_Nombres=pronombre AND per_Apellidos=proapellido;
+        
+        IF (SELECT count(*) FROM grupo
+        WHERE asi_codigo=idasig AND gru_Anno=anno AND gru_Semestre=sem)=0 THEN
+			SET numgrupo=1;
+		ELSE             
+			SELECT max(gru_Numero)+1 INTO numgrupo FROM grupo
+			WHERE asi_codigo=idasig AND gru_Anno=anno AND gru_Semestre=sem;
+		END IF;
+        
+        INSERT INTO grupo(asi_Codigo, gru_Numero, gru_Anno, gru_Semestre, pro_ID)
+        VALUES (idasig, numgrupo, anno, sem, idprofesor);
+        
+    END $$
     
 DELIMITER ;
