@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .cron import crear_usuarios
+from .cron import *
 
 # Create your views here.
     
@@ -54,6 +54,15 @@ def inicio(request):
     elif request.user.groups.filter(name='Administrativo').exists():
         return render(request, 'Evaluacion/inicio_administrativo.html')
     return render(request, 'Evaluacion/error_login.html')
+
+@login_required()
+def info_estudiante(request):
+    if request.user.groups.filter(name='Estudiante').exists():
+        datos=informacionEstudiante(request.user.username)
+
+        return render(request, 'Evaluacion/info_estudiante.html', context=datos)
+    else:
+        return render(request, 'Evaluacion/error_login.html')
     
 @login_required()
 def info_encuesta(request):

@@ -36,8 +36,8 @@ def informacionEstudiante(username):
         cursor.execute("call sp_infoest(%s)",[username])
         resultado = cursor.fetchone()
         datos['usuario'] = username
-        datos['nombre'] = resultado[0]
-        datos['apellido'] = resultado[1]
+        datos['nombres'] = resultado[0]
+        datos['apellidos'] = resultado[1]
         datos['sede'] = resultado[8]
         datos['facultad'] =resultado[7]
         datos['grado'] = resultado[5]

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información Estudiante</title>
+</head>
+<body>
+    Datos Personales:
+    <table>
+        <tr>
+          <td>Usuario</td>
+          <td>{{ usuario }}</td>
+        </tr>
+        <tr>
+          <td>Nombres</td>
+          <td>{{ nombres }}</td>
+        </tr>
+        <tr>
+            <td>Apellidos</td>
+            <td>{{ apellidos }}</td>
+        </tr>
+        <tr>
+            <td>Sede</td>
+            <td>{{ sede }}</td>
+        </tr>
+        <tr>
+            <td>Facultad</td>
+            <td>{{ facultad }}</td>
+        </tr>
+        <tr>
+            <td>Grado</td>
+            <td>{{ grado }}</td>
+        </tr>
+        <tr>
+            <td>Carrera</td>
+            <td>{{ carrera }}</td>
+        </tr>
+        <tr>
+            <td>PAPA</td>
+            <td>{{ PAPA }}</td>
+        </tr>
+        <tr>
+            <td>PAPPI</td>
+            <td>{{ PAPPI }}</td>
+        </tr>
+        <tr>
+            <td>PA</td>
+            <td>{{ PA }}</td>
+        </tr>
+      </table>
+      <a href="{% url 'evaluacion:inicio' %}">Volver</a>
+      <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+</body>
+</html>
