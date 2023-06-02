@@ -53,11 +53,11 @@ def inicio(request):
         return render(request, 'Evaluacion/inicio_profesor.html')
     elif request.user.groups.filter(name='Administrativo').exists():
         return render(request, 'Evaluacion/inicio_administrativo.html')
-    return HttpResponse("No tienes permisos para ver esta pagina")
+    return render(request, 'Evaluacion/error_login.html')
     
 @login_required()
 def info_encuesta(request):
     if request.user.groups.filter(name='Estudiante').exists():
         return render(request, 'Evaluacion/info_encuesta.html')
     else:
-        return HttpResponse("No tienes permisos para ver esta pagina")
+        return render(request, 'Evaluacion/error_login.html')
