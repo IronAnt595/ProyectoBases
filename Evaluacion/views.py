@@ -61,3 +61,10 @@ def info_encuesta(request):
         return render(request, 'Evaluacion/info_encuesta.html')
     else:
         return render(request, 'Evaluacion/error_login.html')
+    
+@login_required()
+def encuesta(request):
+    if request.user.groups.filter(name='Estudiante').exists():
+        return render(request, 'Evaluacion/encuesta.html')
+    else:
+        return render(request, 'Evaluacion/error_login.html')
