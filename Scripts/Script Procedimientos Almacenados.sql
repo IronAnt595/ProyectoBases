@@ -168,7 +168,7 @@ CREATE PROCEDURE sp_insProfesor(nombres VARCHAR(45), apellidos VARCHAR(45))
 	BEGIN
 		DECLARE persona_id INT;
         
-        INSERT INTO persona(per_Usuario, per_Nombres, per_Apellido, per_Rol) VALUES 
+        INSERT INTO persona(per_Usuario, per_Nombres, per_Apellidos, per_Rol) VALUES 
         (generar_usuario(nombres, apellidos), nombres, apellidos, "Profesor");
         
         SET persona_id = LAST_INSERT_ID();
