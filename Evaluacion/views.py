@@ -28,7 +28,7 @@ def registro(request):
 
 def bienvenida(request):
     if request.method == 'POST':
-        rol = int(request.POST.get('rol'))
+        rol = request.POST.get('rol')
         request.session['rol'] = rol
         return redirect('evaluacion:login')
     return render(request, 'Evaluacion/bienvenida.html')
@@ -45,6 +45,7 @@ def loginn(request):
         else:
             return render(request, 'Evaluacion/login.html', context={'error_message': 'Usuario o contraseña incorrectos'})
     else:
+        context = {"rol": request.session['rol']}
         return render(request, 'Evaluacion/login.html')
     
     

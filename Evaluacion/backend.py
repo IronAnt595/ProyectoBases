@@ -19,15 +19,11 @@ class EmailBackend(ModelBackend):
         except UserModel.DoesNotExist:
             return None
         else:
-            print("Se encontró el usuario, verificando contraseña")
             if user.check_password(password):
-                print("Contraseña correcta, verificando grupo")
-                print(group)
-                if group == 1 and user.groups.filter(name='Estudiante').exists():
+                if group == "Estudiante" and user.groups.filter(name='Estudiante').exists():
                     return user
-                elif group == 2 and user.groups.filter(name='Profesor').exists():
+                elif group == "Profesor" and user.groups.filter(name='Profesor').exists():
                     return user
-                elif group == 3 and user.groups.filter(name='Administrativo').exists():
+                elif group == "Administrativo" and user.groups.filter(name='Administrativo').exists():
                     return user
-        print("No se encontro el usuario")
         return None

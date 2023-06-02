@@ -10,9 +10,9 @@
     <p>¡Bienvenido(a)! Elija su rol:</p>
     <form action="{% url 'evaluacion:bienvenida' %}" method="post">
         {% csrf_token %}
-        <button type="submit" name="rol" value="1">Estudiante</button>
-        <button type="submit" name="rol" value="2">Profesor</button>
-        <button type="submit" name="rol" value="3">Administrativo</button>
+        <button type="submit" name="rol" value="Estudiante">Estudiante</button>
+        <button type="submit" name="rol" value="Profesor">Profesor</button>
+        <button type="submit" name="rol" value="Administrativo">Administrativo</button>
     </form>
 </body>
 </html>
