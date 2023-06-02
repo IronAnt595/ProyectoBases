@@ -5,10 +5,20 @@
 -- CREATE SCHEMA IF NOT EXISTS proyecto3;
 USE proyecto3 ;
 
-
 -- -----------------------------------------------------
 -- Table Persona
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS Evaluacion_Abierta ;
+DROP TABLE IF EXISTS Evaluacion_Numerica ;
+DROP TABLE IF EXISTS Grupo_Estudiante ;
+DROP TABLE IF EXISTS Grupo ;
+DROP TABLE IF EXISTS Pregunta ;
+DROP TABLE IF EXISTS Profesor ;
+DROP TABLE IF EXISTS Asignatura ;
+DROP TABLE IF EXISTS Estudiante ;
+DROP TABLE IF EXISTS Carrera ;
+DROP TABLE IF EXISTS Facultad ;
+DROP TABLE IF EXISTS Sede ;
 DROP TABLE IF EXISTS Persona ;
 
 CREATE TABLE IF NOT EXISTS Persona (
@@ -22,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Persona (
 -- -----------------------------------------------------
 -- Table Sede
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Sede ;
 
 CREATE TABLE IF NOT EXISTS Sede (
   sed_Codigo INT NOT NULL,
@@ -33,7 +42,6 @@ CREATE TABLE IF NOT EXISTS Sede (
 -- -----------------------------------------------------
 -- Table Facultad
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Facultad ;
 
 CREATE TABLE IF NOT EXISTS Facultad (
   fac_Codigo INT NOT NULL,
@@ -47,7 +55,6 @@ CREATE TABLE IF NOT EXISTS Facultad (
 -- -----------------------------------------------------
 -- Table Carrera
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Carrera ;
 
 CREATE TABLE IF NOT EXISTS Carrera (
   car_Codigo INT NOT NULL,
@@ -61,7 +68,6 @@ CREATE TABLE IF NOT EXISTS Carrera (
 -- -----------------------------------------------------
 -- Table Estudiante
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Estudiante ;
 
 CREATE TABLE IF NOT EXISTS Estudiante (
   est_ID INT NOT NULL,
@@ -81,7 +87,6 @@ CREATE TABLE IF NOT EXISTS Estudiante (
 -- -----------------------------------------------------
 -- Table Asignatura
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Asignatura ;
 
 CREATE TABLE IF NOT EXISTS Asignatura (
   asi_Codigo INT NOT NULL,
@@ -96,7 +101,6 @@ CREATE TABLE IF NOT EXISTS Asignatura (
 -- -----------------------------------------------------
 -- Table Profesor
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Profesor ;
 
 CREATE TABLE IF NOT EXISTS Profesor (
   pro_ID INT NOT NULL,
@@ -108,7 +112,6 @@ CREATE TABLE IF NOT EXISTS Profesor (
 -- -----------------------------------------------------
 -- Table Pregunta
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Pregunta ;
 
 CREATE TABLE IF NOT EXISTS Pregunta (
   pre_Numero INT NOT NULL AUTO_INCREMENT,
@@ -121,7 +124,6 @@ CREATE TABLE IF NOT EXISTS Pregunta (
 -- -----------------------------------------------------
 -- Table Grupo
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Grupo ;
 
 CREATE TABLE IF NOT EXISTS Grupo (
   gru_Codigo INT NOT NULL AUTO_INCREMENT,
@@ -139,7 +141,6 @@ CREATE TABLE IF NOT EXISTS Grupo (
 -- -----------------------------------------------------
 -- Table Grupo_Estudiante
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Grupo_Estudiante ;
 
 CREATE TABLE IF NOT EXISTS Grupo_Estudiante (
   est_ID INT NOT NULL,
@@ -153,7 +154,6 @@ CREATE TABLE IF NOT EXISTS Grupo_Estudiante (
 -- -----------------------------------------------------
 -- Table Evaluacion_Numerica
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Evaluacion_Numerica ;
 
 CREATE TABLE IF NOT EXISTS Evaluacion_Numerica (
   pre_Numero INT NOT NULL,
@@ -170,7 +170,6 @@ CREATE TABLE IF NOT EXISTS Evaluacion_Numerica (
 -- -----------------------------------------------------
 -- Table Evaluacion_Abierta
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS Evaluacion_Abierta ;
 
 CREATE TABLE IF NOT EXISTS Evaluacion_Abierta (
   pre_Numero INT NOT NULL,
