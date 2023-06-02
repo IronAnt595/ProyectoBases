@@ -27,7 +27,7 @@ def loginn(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        Usuario = authenticate(request, username=username, password=password)
+        Usuario = authenticate(request, username=username, password=password, group=request.session['rol'])
         if Usuario is not None:
             login(request, Usuario)
             return redirect('evaluacion:index')
@@ -39,13 +39,13 @@ def loginn(request):
     
 def logoutt(request):
     logout(request)
-    return redirect('evaluacion:login')
+    return redirect('evaluacion:bienvenida')
 
 # Vistas definitivas:
 
 def bienvenida(request):
     if request.method == 'POST':
-        rol = request.POST.get('rol')
+        rol = int(request.POST.get('rol'))
         request.session['rol'] = rol
         return redirect('evaluacion:login')
     return render(request, 'Evaluacion/bienvenida.html')
