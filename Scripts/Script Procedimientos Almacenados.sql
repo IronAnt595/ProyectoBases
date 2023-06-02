@@ -154,7 +154,7 @@ PAPA float, PAPPI float, PA float, grado varchar(45), codcarrera INT)
 	BEGIN
 		DECLARE persona_id INT;
         
-		INSERT INTO persona(per_Usuario, per_Nombres, per_Apellido, per_Rol) VALUES 
+		INSERT INTO persona(per_Usuario, per_Nombres, per_Apellidos, per_Rol) VALUES 
         (generar_usuario(nombres, apellidos), nombres, apellidos, "Estudiante");
         
         SET persona_id = LAST_INSERT_ID();
