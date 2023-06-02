@@ -129,3 +129,5 @@ STATICFILES_DIRS = [BASE_DIR / 'evaluacion/static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = ['Evaluacion.backend.EmailBackend']
+
+LOGIN_URL = '/evaluacion/bienvenida/'
