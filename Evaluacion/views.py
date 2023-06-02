@@ -75,6 +75,7 @@ def info_asignaturas(request):
     
 @login_required()
 def info_encuesta(request):
+    request.session['indice']=0
     if request.user.groups.filter(name='Estudiante').exists():
         return render(request, 'Evaluacion/info_encuesta.html')
     else:
@@ -83,6 +84,26 @@ def info_encuesta(request):
 @login_required()
 def encuesta(request):
     if request.user.groups.filter(name='Estudiante').exists():
-        return render(request, 'Evaluacion/encuesta.html')
+        context={}
+        preguntas = obtenerPreguntas()
+        request.session['preguntas'] = preguntas
+        indice = request.session['indice']
+        context['numpregunta'] = indice+1
+        context['pregunta'] = preguntas[indice][1]
+        context['tipo'] = preguntas[indice][2]
+        context['evaluado'] = preguntas[indice][3]
+        return render(request, 'Evaluacion/encuesta.html', context=context)
     else:
         return render(request, 'Evaluacion/error_login.html')
+    
+@login_required()
+def procesar_pregunta(request):
+    if request.method == 'POST':
+        if request.POST['accion'] == 'Anterior':
+            request.session['indice'] -= 1
+        elif request.POST['accion'] == 'Siguiente':
+            print('Siguiente')
+            request.session['indice'] += 1
+            print(request.session['indice'])
+        # valor = request.POST['respuesta']
+    return redirect('evaluacion:encuesta')

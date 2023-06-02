@@ -60,3 +60,9 @@ def informacionAsignaturas(username):
             asignatura['profesor'] = resultado[3]+" "+resultado[4]
             datos.append(asignatura)
         return datos
+    
+def obtenerPreguntas():
+    with connection.cursor() as cursor:
+        cursor.execute("select * from pregunta")
+        preguntas = cursor.fetchall()
+        return preguntas

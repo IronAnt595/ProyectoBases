@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta</title>
+</head>
+<body>
+    Inicio de encuesta:
+    <a href="{% url 'evaluacion:info_encuesta' %}">Volver</a>
+    {{ tipo }}
+    <h1>Pregunta {{ numpregunta }}</h1>
+    {{ pregunta }}
+
+    {% if tipo == 'Numérica' %}
+        <form action="{% url 'evaluacion:procesar_pregunta' %}" method="POST">
+            {% csrf_token %}
+            <input type="radio" name="respuesta" id="respuesta1" value="1">
+            <label for="respuesta1">1</label>
+            <input type="radio" name="respuesta" id="respuesta2" value="2">
+            <label for="respuesta2">2</label>
+            <input type="radio" name="respuesta" id="respuesta3" value="3">
+            <label for="respuesta3">3</label>
+            <input type="radio" name="respuesta" id="respuesta4" value="4">
+            <label for="respuesta4">4</label>
+            <input type="radio" name="respuesta" id="respuesta5" value="5">
+            <label for="respuesta5">5</label>
+            {% if numpregunta > 1 %}
+            <input type="submit" name="accion" value="Anterior">
+            {% endif %}
+            <input type="submit" name="accion" value="Siguiente">
+    {% elif tipo == 'Abierta' %}
+    Abierta
+    {% endif %}
+</body>
+</html>
