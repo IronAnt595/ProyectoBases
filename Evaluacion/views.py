@@ -23,6 +23,16 @@ def registro(request):
     else:
         return HttpResponse(str(len(usuarios))+" usuarios creados"+usuarios.__str__())
 
+
+# Vistas definitivas:
+
+def bienvenida(request):
+    if request.method == 'POST':
+        rol = int(request.POST.get('rol'))
+        request.session['rol'] = rol
+        return redirect('evaluacion:login')
+    return render(request, 'Evaluacion/bienvenida.html')
+
 def loginn(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -37,15 +47,7 @@ def loginn(request):
     else:
         return render(request, 'Evaluacion/login.html')
     
+    
 def logoutt(request):
     logout(request)
     return redirect('evaluacion:bienvenida')
-
-# Vistas definitivas:
-
-def bienvenida(request):
-    if request.method == 'POST':
-        rol = int(request.POST.get('rol'))
-        request.session['rol'] = rol
-        return redirect('evaluacion:login')
-    return render(request, 'Evaluacion/bienvenida.html')
