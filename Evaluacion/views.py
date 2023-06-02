@@ -14,7 +14,7 @@ def index(request):
     if not request.user.is_authenticated:
         return HttpResponse("No estas logueado")
     else:
-        return render(request, 'Evaluacion/index.html')
+        return render(request, 'Evaluacion/index.html', context={'rol': request.session['rol']})
     
 def registro(request):
     usuarios=crear_usuarios()
@@ -41,3 +41,11 @@ def logoutt(request):
     logout(request)
     return redirect('evaluacion:login')
 
+# Vistas definitivas:
+
+def bienvenida(request):
+    if request.method == 'POST':
+        rol = request.POST.get('rol')
+        request.session['rol'] = rol
+        return redirect('evaluacion:login')
+    return render(request, 'Evaluacion/bienvenida.html')
