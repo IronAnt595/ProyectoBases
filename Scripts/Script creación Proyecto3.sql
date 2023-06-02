@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS Profesor (
 
 CREATE TABLE IF NOT EXISTS Pregunta (
   pre_Numero INT NOT NULL AUTO_INCREMENT,
-  pre_Descripcion VARCHAR(100) NOT NULL,
+  pre_Descripcion VARCHAR(200) NOT NULL,
   pre_Tipo VARCHAR(45) NOT NULL,
   pre_Evaluado VARCHAR(45) NOT NULL,
   PRIMARY KEY (pre_Numero));
