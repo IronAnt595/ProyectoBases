@@ -29,3 +29,20 @@ def crear_usuarios():
                 user.groups.add(group)
                 user.save()
         return usuarios_creados
+
+def informacionEstudiante(username):
+    with connection.cursor() as cursor:
+        datos = {}
+        cursor.execute("call sp_infoest(%s)",[username])
+        resultado = cursor.fetchone()
+        datos['usuario'] = username
+        datos['nombre'] = resultado[0]
+        datos['apellido'] = resultado[1]
+        datos['sede'] = resultado[8]
+        datos['facultad'] =resultado[7]
+        datos['grado'] = resultado[5]
+        datos['carrera'] = resultado[6]
+        datos['PAPA'] = resultado[2]
+        datos['PAPPI'] = resultado[3]
+        datos['PA'] = resultado[4]
+        return datos

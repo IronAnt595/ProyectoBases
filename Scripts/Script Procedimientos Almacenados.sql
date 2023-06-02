@@ -22,9 +22,11 @@ CREATE PROCEDURE sp_gruposest (id INT)
 
 -- Obtener la información personal de un estudiante (nombre, apellidos, etc.).
 
-CREATE PROCEDURE sp_infoest (id INT)
+CREATE PROCEDURE sp_infoest (username VARCHAR(45))
 	BEGIN
-		SELECT est_Nombres, est_Apellidos, est_PAPA, est_PAPPI, est_PA, est_Evaluacion, est_Grado, car_Nombre, fac_Nombre, sed_Nombre FROM estudiante NATURAL JOIN carrera NATURAL JOIN facultad NATURAL JOIN sede WHERE est_ID=id;
+		SELECT per_Nombres, per_Apellidos, est_PAPA, est_PAPPI, est_PA, est_Grado, car_Nombre, fac_Nombre, sed_Nombre
+		FROM persona JOIN estudiante NATURAL JOIN carrera NATURAL JOIN facultad NATURAL JOIN sede ON per_ID=est_ID WHERE per_Usuario=username
+		AND per_Rol='Estudiante';
     END $$
 
 -- Registrar la evaluación numérica de un estudiante en un grupo específico.
