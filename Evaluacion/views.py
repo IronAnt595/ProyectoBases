@@ -76,6 +76,8 @@ def info_asignaturas(request):
 @login_required()
 def info_encuesta(request):
     request.session['indice']=0
+    request.session['respuestas']=dict()
+    print(request.session['respuestas'])
     if request.user.groups.filter(name='Estudiante').exists():
         return render(request, 'Evaluacion/info_encuesta.html')
     else:
@@ -83,27 +85,61 @@ def info_encuesta(request):
     
 @login_required()
 def encuesta(request):
+
+    #Obtener la pregunta actual
+    indice = request.session['indice']
+    preguntas = obtenerPreguntas()
+    pregunta_actual = preguntas[indice]
+    context = {'descripcion': pregunta_actual[1],
+               'tipo': pregunta_actual[2],
+               'evaluado': pregunta_actual[3],
+               'numpregunta': indice+1,
+               'rango': range(1,6),
+               'respuestas': request.session['respuestas'].get(str(pregunta_actual[0])),
+               }
+    #Obtener los grupos
+    asignaturas = informacionAsignaturas(request.user.username)
+    context['asignaturas'] = asignaturas
+    pprint(asignaturas)
+    print(request.session['respuestas'])
+
     if request.user.groups.filter(name='Estudiante').exists():
-        context={}
-        preguntas = obtenerPreguntas()
-        request.session['preguntas'] = preguntas
-        indice = request.session['indice']
-        context['numpregunta'] = indice+1
-        context['pregunta'] = preguntas[indice][1]
-        context['tipo'] = preguntas[indice][2]
-        context['evaluado'] = preguntas[indice][3]
         return render(request, 'Evaluacion/encuesta.html', context=context)
     else:
         return render(request, 'Evaluacion/error_login.html')
     
+    
 @login_required()
 def procesar_pregunta(request):
     if request.method == 'POST':
-        if request.POST['accion'] == 'Anterior':
+    #Actualizar el índice
+        if request.POST.get('accion')=='Siguiente':
+            try:
+                #Obtener las respuestas
+                print("-----POST-----")
+                
+                #Obtener los códigos de los grupos
+                asignaturas = informacionAsignaturas(request.user.username)
+                codgrupo = [grupo['codigogrupo'] for grupo in asignaturas]
+                #Obtener el código de la pregunta
+                preguntas = obtenerPreguntas()
+                pregunta_actual = preguntas[request.session['indice']]
+                print(pregunta_actual)
+                codpregunta = pregunta_actual[0]
+                respuestas = request.session['respuestas']
+                respuestas[codpregunta] = dict()
+                #Obtener las respuestas por cada grupo
+                pprint(request.POST)
+                for i in codgrupo:
+                    print(i,request.POST.get(f'respuesta_{i}'))
+                    respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
+
+            #Guardarlas en request.session['respuestas']
+                request.session['respuestas'] = respuestas
+                request.session['indice'] += 1
+            except TypeError:
+                return redirect('evaluacion:encuesta')
+        elif request.POST.get('accion')=='Anterior':
             request.session['indice'] -= 1
-        elif request.POST['accion'] == 'Siguiente':
-            print('Siguiente')
-            request.session['indice'] += 1
-            print(request.session['indice'])
-        # valor = request.POST['respuesta']
+        
     return redirect('evaluacion:encuesta')
