@@ -13,4 +13,5 @@ urlpatterns = [
     path('info_estudiante/', views.info_estudiante, name='info_estudiante'),
     path('info_asignaturas/', views.info_asignaturas, name='info_asignaturas'),
     path('procesar_pregunta/', views.procesar_pregunta, name='procesar_pregunta'),
+    path('finalizar_encuesta', views.finalizar_encuesta, name='finalizar_encuesta'),
 ]

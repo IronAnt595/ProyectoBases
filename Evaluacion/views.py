@@ -155,3 +155,6 @@ def procesar_pregunta(request):
         return redirect('evaluacion:finalizar_encuesta')
         
     return redirect('evaluacion:encuesta')
+
+def finalizar_encuesta(request):
+    return HttpResponse("Felicidades, ha terminado la encuesta.")
