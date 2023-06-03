@@ -88,6 +88,7 @@ def encuesta(request):
     #Obtener la pregunta actual
     indice = request.session['indice']
     preguntas = obtenerPreguntas()
+    longitud = len(preguntas)
     pregunta_actual = preguntas[indice]
     context = {'descripcion': pregunta_actual[1],
                'tipo': pregunta_actual[2],
@@ -95,6 +96,7 @@ def encuesta(request):
                'numpregunta': indice+1,
                'rango': range(1,6),
                'respuestas': request.session['respuestas'].get(str(pregunta_actual[0])),
+               'longitud': longitud,
                }
     #Obtener los grupos
     asignaturas = informacionAsignaturas(request.user.username)
@@ -142,10 +144,14 @@ def procesar_pregunta(request):
             request.session['respuestas'] = respuestas
         
     #Actualizar el índice
+    pprint(request.POST)
     if request.POST.get('accion')=='Siguiente':
         request.session['indice'] += 1
         
     elif request.POST.get('accion')=='Anterior':
         request.session['indice'] -= 1
+
+    elif request.POST.get('accion')=='Finalizar':
+        return redirect('evaluacion:finalizar_encuesta')
         
     return redirect('evaluacion:encuesta')

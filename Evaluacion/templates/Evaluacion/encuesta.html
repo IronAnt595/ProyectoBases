@@ -11,27 +11,12 @@
     <a href="{% url 'evaluacion:info_encuesta' %}">Volver</a>
     {% if asignaturas %}
     {{ tipo }}
+    {% else %}
+    No hay grupos
+    {% endif %}
     <h1>Pregunta {{ numpregunta }}</h1>
     <p><strong> Seleccione por lo menos una opción por grupo, en caso contrario no podrá continuar con la encuesta:</strong></p>
     {{ descripcion }}
-
-    <!-- Asignaturas: {{ asignaturas }}
-    <br>
-
-    Respuestas: {{ respuestas }}
-    <br>
-
-    Resultados:
-
-    {% for n in asignaturas %}
-        {{ n.codigogrupo }}
-        {% for key, value in respuesta.items %}
-            {% if key == '1' %}
-                {{ n }} = {{ value }}
-            {% endif %} -->
-            <!-- {{ key }} = {{ value }}
-        {% endfor %}
-    {% endfor %} -->
 
     Respuestas: {{ respuestas }}
 
@@ -79,15 +64,17 @@
                 {% endif %}
             </div>
             {% endfor %}
+
             {% if numpregunta > 1 %}
-            <input type="submit" name="accion" value="Anterior">
+                <input type="submit" value="Anterior" name="accion">
             {% endif %}
-            <input type="submit" name="accion" value="Siguiente">
+
+            {% if numpregunta < longitud %}
+                <input type="submit" value="Siguiente" name="accion">
+            {% else %}
+                <input type="submit" value="Finalizar" name="accion">
+            {% endif %}
             
         </form>
-    
-    {% else %}
-    <p>No hay asignaturas registradas.</p>
-    {% endif %}
 </body>
 </html>
