@@ -99,6 +99,7 @@ def encuesta(request):
     #Obtener los grupos
     asignaturas = informacionAsignaturas(request.user.username)
     context['asignaturas'] = asignaturas
+    pprint(request.session['respuestas'])
 
     if request.user.groups.filter(name='Estudiante').exists():
         return render(request, 'Evaluacion/encuesta.html', context=context)
@@ -109,34 +110,42 @@ def encuesta(request):
 @login_required()
 def procesar_pregunta(request):
     if request.method == 'POST':
-    #Actualizar el índice
-        try:
-            #Obtener las respuestas
-            
-            #Obtener los códigos de los grupos
-            asignaturas = informacionAsignaturas(request.user.username)
-            codgrupo = [str(grupo['codigogrupo']) for grupo in asignaturas]
-            #Obtener el código de la pregunta
-            preguntas = obtenerPreguntas()
-            pregunta_actual = preguntas[request.session['indice']]
-            codpregunta = pregunta_actual[0]
-            respuestas = request.session['respuestas']
-            respuestas[codpregunta] = dict()
-            #Obtener las respuestas por cada grupo
-            # pprint(request.POST)
+    # Si es numérica o abierta
+        asignaturas = informacionAsignaturas(request.user.username)
+        codgrupo = [str(grupo['codigogrupo']) for grupo in asignaturas]
+        #Obtener el código de la pregunta
+        preguntas = obtenerPreguntas()
+        pregunta_actual = preguntas[request.session['indice']]
+        metodo = pregunta_actual[2]
+        codpregunta = pregunta_actual[0]
+        respuestas = request.session['respuestas']
+        respuestas[codpregunta] = dict()
+        if metodo == 'Numérica':
 
+            try:
+                for i in codgrupo:
+                    respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
+
+            #Guardarlas en request.session['respuestas']
+                request.session['respuestas'] = respuestas
+            except TypeError:
+                print("Hola")
+                return redirect('evaluacion:encuesta')
+        elif metodo == 'Abierta':
+            pprint(request.POST)
             for i in codgrupo:
-                # print(i,request.POST.get(f'respuesta_{i}'))
-                respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
-
-        #Guardarlas en request.session['respuestas']
+                respuesta = request.POST.get(f'respuesta_{i}')
+                if respuesta:
+                    respuestas[codpregunta][i] = respuesta
+                else:
+                    return redirect('evaluacion:encuesta')
             request.session['respuestas'] = respuestas
-        except TypeError:
-            return redirect('evaluacion:encuesta')
-        if request.POST.get('accion')=='Siguiente':
-            request.session['indice'] += 1
-            
-        elif request.POST.get('accion')=='Anterior':
-            request.session['indice'] -= 1
+        
+    #Actualizar el índice
+    if request.POST.get('accion')=='Siguiente':
+        request.session['indice'] += 1
+        
+    elif request.POST.get('accion')=='Anterior':
+        request.session['indice'] -= 1
         
     return redirect('evaluacion:encuesta')

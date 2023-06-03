@@ -45,26 +45,37 @@
 
     
 
-    {% if tipo == 'Numérica' %}
         <form action="{% url 'evaluacion:procesar_pregunta' %}" method="POST" onsubmit="false">
             {% csrf_token %}
             {% for asignatura in asignaturas %}
             <div>
                 <p>{{ asignatura.nombre }} [{{ asignatura.profesor }}]</p>
-                {% if respuestas %}
-                {% for i in rango %}
-                    {% for key, value in respuestas.items %}
-                        {% if key == asignatura.codigogrupo %}
-                            <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}" {% if value == i  %} checked {% endif %}>
-                            <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
-                        {% endif %}
+                {% if tipo == 'Numérica' %}
+                    {% if respuestas %}
+                    {% for i in rango %}
+                        {% for key, value in respuestas.items %}
+                            {% if key == asignatura.codigogrupo %}
+                                <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}" {% if value == i  %} checked {% endif %}>
+                                <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-                {% else %}
-                {% for i in rango %}
-                    <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}">
-                    <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
-                {% endfor %}
+                    {% else %}
+                    {% for i in rango %}
+                        <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}">
+                        <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
+                    {% endfor %}
+                    {% endif %}
+                {% elif tipo == 'Abierta' %}
+                    {% if respuestas %}
+                        {% for key, value in respuestas.items %}
+                            {% if key == asignatura.codigogrupo %}
+                                <input type="text" id="respuesta_{{ asignatura.codigogrupo }}" name="respuesta_{{ asignatura.codigogrupo }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <input type="text" id="respuesta_{{ asignatura.codigogrupo }}" name="respuesta_{{ asignatura.codigogrupo }}">
+                    {% endif %}
                 {% endif %}
             </div>
             {% endfor %}
@@ -74,9 +85,7 @@
             <input type="submit" name="accion" value="Siguiente">
             
         </form>
-    {% elif tipo == 'Abierta' %}
-    Abierta
-    {% endif %}
+    
     {% else %}
     <p>No hay asignaturas registradas.</p>
     {% endif %}
