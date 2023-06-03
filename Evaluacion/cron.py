@@ -54,7 +54,7 @@ def informacionAsignaturas(username):
         resultados = cursor.fetchall()
         for resultado in resultados:
             asignatura = {}
-            asignatura['codigogrupo'] = resultado[0]
+            asignatura['codigogrupo'] = str(resultado[0])
             asignatura['nombre'] = resultado[1]
             asignatura['creditos'] = resultado[2]
             asignatura['profesor'] = resultado[3]+" "+resultado[4]

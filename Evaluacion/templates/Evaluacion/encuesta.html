@@ -1,4 +1,3 @@
-{% load util %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,34 @@
     <p><strong> Seleccione por lo menos una opción por grupo, en caso contrario no podrá continuar con la encuesta:</strong></p>
     {{ descripcion }}
 
+    <!-- Asignaturas: {{ asignaturas }}
+    <br>
+
+    Respuestas: {{ respuestas }}
+    <br>
+
+    Resultados:
+
+    {% for n in asignaturas %}
+        {{ n.codigogrupo }}
+        {% for key, value in respuesta.items %}
+            {% if key == '1' %}
+                {{ n }} = {{ value }}
+            {% endif %} -->
+            <!-- {{ key }} = {{ value }}
+        {% endfor %}
+    {% endfor %} -->
+
+    Respuestas: {{ respuestas }}
+
+    {% for asignatura in asignaturas %}
+        {% for key, value in respuestas.items %}
+            {% if key == asignatura.codigogrupo %}
+                {{ asignatura.codigogrupo }} = {{ value }}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
     
 
     {% if tipo == 'Numérica' %}
@@ -24,13 +51,21 @@
             {% for asignatura in asignaturas %}
             <div>
                 <p>{{ asignatura.nombre }} [{{ asignatura.profesor }}]</p>
+                {% if respuestas %}
+                {% for i in rango %}
+                    {% for key, value in respuestas.items %}
+                        {% if key == asignatura.codigogrupo %}
+                            <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}" {% if value == i  %} checked {% endif %}>
+                            <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                {% else %}
                 {% for i in rango %}
                     <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}">
                     <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
-                    {% with grupo=asignatura.codigogrupo %}
-                    {{ respuestas|get_value:grupo }}
-                    {% endwith %}
                 {% endfor %}
+                {% endif %}
             </div>
             {% endfor %}
             {% if numpregunta > 1 %}
