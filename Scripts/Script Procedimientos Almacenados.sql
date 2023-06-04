@@ -1,4 +1,5 @@
 -- Creación de procedimientos almacenados
+DROP PROCEDURE IF EXISTS sp_encuestarealizada;
 DROP PROCEDURE IF EXISTS sp_gruposest;
 DROP PROCEDURE IF EXISTS sp_infoest;
 DROP PROCEDURE IF EXISTS sp_evalnum;
@@ -13,8 +14,18 @@ DROP PROCEDURE IF EXISTS sp_aggpregunta;
 DROP PROCEDURE IF EXISTS sp_modpregunta;
 DROP PROCEDURE IF EXISTS sp_delpregunta;
 
--- Obtener la lista de grupos en los que está inscrito un estudiante.
+-- Verificar si un estudiante realizó la encuesta
 DELIMITER $$
+CREATE PROCEDURE sp_encuestarealizada(usuario VARCHAR(45))
+	BEGIN
+		DECLARE idest INT;
+        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
+        WHERE per_Usuario=usuario;
+        
+        SELECT est_Evaluacion FROM estudiante WHERE est_ID=idest;
+    END $$
+
+-- Obtener la lista de grupos en los que está inscrito un estudiante.
 CREATE PROCEDURE sp_gruposest (usuario VARCHAR(45))
 	BEGIN
 		DECLARE idest INT;
