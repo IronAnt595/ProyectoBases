@@ -44,6 +44,11 @@ CREATE PROCEDURE sp_evalnum (numpre INT, usuario VARCHAR(45), codgru INT, eval I
         
 		INSERT INTO evaluacion_numerica(pre_Numero, est_ID, gru_Codigo, eva_Calificacion)
         VALUES(numpre, idest, codgru, eval);
+        
+        UPDATE estudiante
+        SET est_Evaluacion = 1
+        WHERE est_ID = idest;
+        
     END $$
 
 -- Registrar la evaluación abierta de un estudiante en un grupo específico.
@@ -56,6 +61,10 @@ CREATE PROCEDURE sp_evalabi (numpre INT, usuario VARCHAR(45), codgru INT, eval T
     
 		INSERT INTO evaluacion_abierta(pre_Numero, est_ID, gru_Codigo, eva_Calificacion)
         VALUES(numpre, idest, codgru, eval);
+        
+        UPDATE estudiante
+        SET est_Evaluacion = 1
+        WHERE est_ID = idest;
     END $$
 
 -- Mostrar el promedio de calificación de un profesor en una pregunta específica
