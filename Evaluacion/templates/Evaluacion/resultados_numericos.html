@@ -18,8 +18,13 @@
         {% for grupo, resultados in contenido.items %}
 
             {% if grupo != "descripcion" %}
-                <div>Grupo {{ grupo}} {{ resultados.asignatura }}: {{ resultados.resultados }}
-                    <div>{{ resultados.grafico.layout }}</div>
+                <div>Grupo {{ grupo}} {{ resultados.asignatura }}:
+                    {% if resultados.resultados %}
+                        <div><img src="data:image/png;base64,{{ resultados.grafico }}"></div>
+                    {% else %}
+                        <div>No hay resultados disponibles</div>
+                    {% endif %}
+                    
                 </div>
             {% endif %}
 

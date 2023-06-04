@@ -199,7 +199,6 @@ def resultados_numericos(request):
     if request.user.groups.filter(name='Profesor').exists():
         #Obtener las preguntas
         preguntass = obtenerPreguntas()
-        #pprint(preguntas)
         preguntas = dict()
         for pregunta in preguntass:
             if pregunta[2] == 'Numérica':
@@ -211,17 +210,18 @@ def resultados_numericos(request):
                 for grupo in grupos:
                     codgrupo = grupo[0]
                     asignatura = grupo[1]
-                    print(grupo)
                     hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo)
+                    grafico=pie_chart(hola)
                     preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
-                                                      'resultados': hola,}
+                                                      'resultados': hola,
+                                                      'grafico': grafico,}
         #Obtener los resultados numéricos de la base de datos
             #Llamar a un procedimiento almacenado
                 #Obtener los grupos del profesor
                 #Obtener las preguntas numéricas
         #Enviar a la vista
         context = {'preguntas': preguntas}
-        pprint(context)
+        # pprint(context)
         return render(request, 'Evaluacion/resultados_numericos.html', context)
     else:
         return render(request, 'Evaluacion/error_login.html')

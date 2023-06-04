@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User, Group
 from django.db import connection
 from unidecode import unidecode
-from django_plotly_dash import DjangoDash
-import dash_core_components as dcc
-import dash_html_components as html
-import plotly.graph_objs as go
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 def verificar_existencia_usuario(username):
     try:
@@ -26,7 +27,6 @@ def crear_usuarios():
             if not verificar_existencia_usuario(username):
                 usuarios_creados.append(username)
                 password = unidecode(row[1])
-                print(password)
                 rol = row[4]
                 user = User.objects.create_user(username=username, password=password)
                 group = Group.objects.get(name=rol)
@@ -106,3 +106,24 @@ def obtenerGruposProfesor(username):
         cursor.execute("call sp_gruposprof(%s)",[username])
         resultados = cursor.fetchall()
         return resultados
+
+def pie_chart(datos):
+    if datos:
+        
+        # Crear gráfico
+        labels = list(datos.keys())
+        values = list(datos.values())
+
+        fig, ax = plt.subplots()
+        ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=90)
+        ax.axis('equal')
+
+        # Convertir el gráfico en una representación base64
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        imagen_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+        buffer.close()
+
+        return imagen_base64
+        
