@@ -159,6 +159,7 @@ def procesar_pregunta(request):
     else:
         return render(request, 'Evaluacion/finalizar_encuesta.html')
 
+@login_required()
 def finalizar_encuesta(request):
     # Enviar datos a la base de datos
     if request.user.groups.filter(name='Estudiante').exists():
@@ -170,5 +171,21 @@ def finalizar_encuesta(request):
         return render(request, 'Evaluacion/finalizar_encuesta.html')
     else:
         return render(request, 'Evaluacion/error_login.html')
+    
+#Vistas para el profesor
+# preguntas evaluativas
+@login_required()
+def preguntas_evaluativas(request):
+    if request.user.groups.filter(name='Profesor').exists():
+        preguntas = obtenerPreguntas()
+        asignatura = [pregunta[1] for pregunta in preguntas if pregunta[3] == 'Asignatura']
+        profesor = [pregunta[1] for pregunta in preguntas if pregunta[3] == 'Profesor']
+        context = {'asignatura': asignatura, 'profesor': profesor}
+        return render(request, 'Evaluacion/preguntas_evaluativas.html', context=context)
+    else:
+        return render(request, 'Evaluacion/error_login.html')
+
+# documentación
+# consultar mis resultados
 
 
