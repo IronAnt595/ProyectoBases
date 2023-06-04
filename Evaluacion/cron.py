@@ -1,6 +1,10 @@
 from django.contrib.auth.models import User, Group
 from django.db import connection
 from unidecode import unidecode
+from django_plotly_dash import DjangoDash
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.graph_objs as go
 
 def verificar_existencia_usuario(username):
     try:
@@ -86,3 +90,19 @@ def encuestaRealizada(username):
             return True
         else:
             return False
+        
+def obtenerResultadosNumericos(username, numpregunta,codgrupo):
+    with connection.cursor() as cursor:
+        numericos = {}
+        cursor.execute("call sp_calinumerica(%s,%s,%s)",[numpregunta,username,codgrupo])
+        resultados = cursor.fetchall()
+        for resultado in resultados:
+            numericos[resultado[0]] = resultado[1]
+        return numericos
+    
+#Obtener los grupos de cada profesor
+def obtenerGruposProfesor(username):
+    with connection.cursor() as cursor:
+        cursor.execute("call sp_gruposprof(%s)",[username])
+        resultados = cursor.fetchall()
+        return resultados

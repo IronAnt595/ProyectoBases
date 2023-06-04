@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Numéricos</title>
+</head>
+<body>
+    <h1>Resultados numéricos:</h1>
+    Calificación Numérica:
+    <br>
+    {% for pregunta, contenido in preguntas.items %}
+        <strong>Pregunta {{ forloop.counter }}:</strong><br>
+
+        {{ contenido.descripcion }}
+
+        {% for grupo, resultados in contenido.items %}
+
+            {% if grupo != "descripcion" %}
+                <div>Grupo {{ grupo}} {{ resultados.asignatura }}: {{ resultados.resultados }}
+                    <div>{{ resultados.grafico.layout }}</div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+        <br>
+    {% endfor %}
+</body>
+</html>

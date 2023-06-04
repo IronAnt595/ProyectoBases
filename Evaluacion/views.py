@@ -193,5 +193,38 @@ def documentacion(request):
     else:
         return render(request, 'Evaluacion/error_login.html')
 # consultar mis resultados
+#resultados numéricos
+@login_required()
+def resultados_numericos(request):
+    if request.user.groups.filter(name='Profesor').exists():
+        #Obtener las preguntas
+        preguntass = obtenerPreguntas()
+        #pprint(preguntas)
+        preguntas = dict()
+        for pregunta in preguntass:
+            if pregunta[2] == 'Numérica':
+                numpregunta = pregunta[0]
+                preguntas[numpregunta] = {'descripcion': pregunta[1],
+                                        }
+                #Obtener los grupos del profesor
+                grupos = obtenerGruposProfesor(request.user.username)
+                for grupo in grupos:
+                    codgrupo = grupo[0]
+                    asignatura = grupo[1]
+                    print(grupo)
+                    hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo)
+                    preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                      'resultados': hola,}
+        #Obtener los resultados numéricos de la base de datos
+            #Llamar a un procedimiento almacenado
+                #Obtener los grupos del profesor
+                #Obtener las preguntas numéricas
+        #Enviar a la vista
+        context = {'preguntas': preguntas}
+        pprint(context)
+        return render(request, 'Evaluacion/resultados_numericos.html', context)
+    else:
+        return render(request, 'Evaluacion/error_login.html')
+#resultados abiertos
 
 
