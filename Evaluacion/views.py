@@ -85,84 +85,90 @@ def info_encuesta(request):
 @login_required()
 def encuesta(request):
 
-    #Obtener la pregunta actual
-    indice = request.session['indice']
-    preguntas = obtenerPreguntas()
-    longitud = len(preguntas)
-    pregunta_actual = preguntas[indice]
-    context = {'descripcion': pregunta_actual[1],
-               'tipo': pregunta_actual[2],
-               'evaluado': pregunta_actual[3],
-               'numpregunta': indice+1,
-               'rango': range(1,6),
-               'respuestas': request.session['respuestas'].get(str(pregunta_actual[0])),
-               'longitud': longitud,
-               }
-    #Obtener los grupos
-    asignaturas = informacionAsignaturas(request.user.username)
-    context['asignaturas'] = asignaturas
+    if not encuestaRealizada(request.user.username):
 
-    if request.user.groups.filter(name='Estudiante').exists():
-        return render(request, 'Evaluacion/encuesta.html', context=context)
+        #Obtener la pregunta actual
+        indice = request.session['indice']
+        preguntas = obtenerPreguntas()
+        longitud = len(preguntas)
+        pregunta_actual = preguntas[indice]
+        context = {'descripcion': pregunta_actual[1],
+                'tipo': pregunta_actual[2],
+                'evaluado': pregunta_actual[3],
+                'numpregunta': indice+1,
+                'rango': range(1,6),
+                'respuestas': request.session['respuestas'].get(str(pregunta_actual[0])),
+                'longitud': longitud,
+                }
+        #Obtener los grupos
+        asignaturas = informacionAsignaturas(request.user.username)
+        context['asignaturas'] = asignaturas
+
+        if request.user.groups.filter(name='Estudiante').exists():
+            return render(request, 'Evaluacion/encuesta.html', context=context)
+        else:
+            return render(request, 'Evaluacion/error_login.html')
     else:
-        return render(request, 'Evaluacion/error_login.html')
+        return render(request, 'Evaluacion/finalizar_encuesta.html')
     
     
 @login_required()
 def procesar_pregunta(request):
     #Hacer que se pueda devolver sin llenar toda la pregunta **********************Falta***************
-    if request.method == 'POST':
-    # Si es numérica o abierta
-        asignaturas = informacionAsignaturas(request.user.username)
-        codgrupo = [str(grupo['codigogrupo']) for grupo in asignaturas]
-        #Obtener el código de la pregunta
-        preguntas = obtenerPreguntas()
-        pregunta_actual = preguntas[request.session['indice']]
-        metodo = pregunta_actual[2]
-        codpregunta = pregunta_actual[0]
-        respuestas = request.session['respuestas']
-        respuestas[codpregunta] = dict()
-        if metodo == 'Numérica':
-            try:
-                for i in codgrupo:
-                    respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
+    if not encuestaRealizada(request.user.username):
+        if request.method == 'POST':
+        # Si es numérica o abierta
+            asignaturas = informacionAsignaturas(request.user.username)
+            codgrupo = [str(grupo['codigogrupo']) for grupo in asignaturas]
+            #Obtener el código de la pregunta
+            preguntas = obtenerPreguntas()
+            pregunta_actual = preguntas[request.session['indice']]
+            metodo = pregunta_actual[2]
+            codpregunta = pregunta_actual[0]
+            respuestas = request.session['respuestas']
+            respuestas[codpregunta] = dict()
+            if metodo == 'Numérica':
+                try:
+                    for i in codgrupo:
+                        respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
 
-            #Guardarlas en request.session['respuestas']
-                request.session['respuestas'] = respuestas
-            except TypeError:
-                print("Hola")
-                return redirect('evaluacion:encuesta')
-        elif metodo == 'Abierta':
-            for i in codgrupo:
-                respuesta = request.POST.get(f'respuesta_{i}')
-                if respuesta:
-                    respuestas[codpregunta][i] = respuesta
-                else:
+                #Guardarlas en request.session['respuestas']
+                    request.session['respuestas'] = respuestas
+                except TypeError:
                     return redirect('evaluacion:encuesta')
-            request.session['respuestas'] = respuestas
-        
-    #Actualizar el índice
-    if request.POST.get('accion')=='Siguiente':
-        request.session['indice'] += 1
-        
-    elif request.POST.get('accion')=='Anterior':
-        request.session['indice'] -= 1
+            elif metodo == 'Abierta':
+                for i in codgrupo:
+                    respuesta = request.POST.get(f'respuesta_{i}')
+                    if respuesta:
+                        respuestas[codpregunta][i] = respuesta
+                    else:
+                        return redirect('evaluacion:encuesta')
+                request.session['respuestas'] = respuestas
+            
+        #Actualizar el índice
+        if request.POST.get('accion')=='Siguiente':
+            request.session['indice'] += 1
+            
+        elif request.POST.get('accion')=='Anterior':
+            request.session['indice'] -= 1
 
-    elif request.POST.get('accion')=='Finalizar':
-        return redirect('evaluacion:finalizar_encuesta')
-        
-    return redirect('evaluacion:encuesta')
+        elif request.POST.get('accion')=='Finalizar':
+            return redirect('evaluacion:finalizar_encuesta')
+            
+        return redirect('evaluacion:encuesta')
+    else:
+        return render(request, 'Evaluacion/finalizar_encuesta.html')
 
 def finalizar_encuesta(request):
     # Enviar datos a la base de datos
-    preguntas=obtenerPreguntas()
-    pprint(preguntas)
-    respuestas = request.session['respuestas']
-    pprint(respuestas)
-    #Enviar a función que guarde en la base de datos
-    #Respuestas: {idpregunta:{idgrupo:calificacion}}
-    enviarRespuestas(request.user.username, respuestas, preguntas)
-    #Impedir que alguien repita la encuesta
-    return HttpResponse("Felicidades, ha terminado la encuesta.")
+    if request.user.groups.filter(name='Estudiante').exists():
+        if not encuestaRealizada(request.user.username): #Si no ha realizado la encuesta
+            preguntas=obtenerPreguntas()
+            respuestas = request.session['respuestas']
+            #Enviar a función que guarde en la base de datos
+            enviarRespuestas(request.user.username, respuestas, preguntas)
+        return render(request, 'Evaluacion/finalizar_encuesta.html')
+    else:
+        return render(request, 'Evaluacion/error_login.html')
 
 
