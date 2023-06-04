@@ -66,3 +66,17 @@ def obtenerPreguntas():
         cursor.execute("select * from pregunta")
         preguntas = cursor.fetchall()
         return preguntas
+    
+def enviarRespuestas(username, respuestas, preguntas):
+    ...
+    for numpregunta, respuesta in respuestas.items():
+        tipo = preguntas[int(numpregunta)-1][2]
+        for grupo, valor in respuesta.items():
+            print(numpregunta, tipo, grupo, valor)
+            if tipo == 'Numérica':
+                with connection.cursor() as cursor:
+                    cursor.execute("call sp_evalnum(%s,%s,%s,%s)",[numpregunta,username,grupo,valor])# Llamar al procedimiento almacenado numérico
+            elif tipo == 'Abierta':
+                with connection.cursor() as cursor:
+                    cursor.execute("call sp_evalabi(%s,%s,%s,%s)",[numpregunta,username,grupo,valor])# Llamar al procedimiento almacenado abierto
+                    
