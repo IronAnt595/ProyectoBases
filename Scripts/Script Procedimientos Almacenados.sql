@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS sp_gruposest;
 DROP PROCEDURE IF EXISTS sp_infoest;
 DROP PROCEDURE IF EXISTS sp_evalnum;
 DROP PROCEDURE IF EXISTS sp_evalabi;
-DROP PROCEDURE IF EXISTS sp_promeval;
+DROP PROCEDURE IF EXISTS sp_calinumerica;
 DROP PROCEDURE IF EXISTS sp_caliabierta;
 DROP PROCEDURE IF EXISTS sp_promtotaleval;
 DROP PROCEDURE IF EXISTS sp_infoprof;
@@ -78,12 +78,16 @@ CREATE PROCEDURE sp_evalabi (numpre INT, usuario VARCHAR(45), codgru INT, eval T
         WHERE est_ID = idest;
     END $$
 
--- Mostrar el promedio de calificación de un profesor en una pregunta específica
+-- Mostrar los resultados de la evaluación numérica de un profesor en una pregunta específica en un grupo específico
 
-CREATE PROCEDURE sp_promeval (numpre INT, idprof INT, OUT promedio FLOAT)
+CREATE PROCEDURE sp_calinumerica (numpre INT, usuario VARCHAR(45), codgru INT)
 	BEGIN
-		SELECT avg(eva_Calificacion) INTO promedio FROM evaluacion_numerica NATURAL JOIN grupo
-        WHERE pre_Numero=numpre AND pro_ID=idprof;
+		DECLARE idprof INT;
+        SELECT pro_ID INTO idprof FROM profesor JOIN persona ON pro_ID=per_ID
+        WHERE per_Usuario=usuario;
+        
+        SELECT eva_calificacion, count(eva_calificacion) FROM evaluacion_numerica NATURAL JOIN grupo
+		WHERE pro_ID=idprof AND pre_Numero=numpre AND gru_codigo=codgru GROUP BY eva_calificacion;
     END $$
 
 -- Mostrar las calificaciones abiertas de un profesor específico en una pregunta específica
