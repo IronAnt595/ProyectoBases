@@ -101,7 +101,6 @@ def encuesta(request):
     #Obtener los grupos
     asignaturas = informacionAsignaturas(request.user.username)
     context['asignaturas'] = asignaturas
-    pprint(request.session['respuestas'])
 
     if request.user.groups.filter(name='Estudiante').exists():
         return render(request, 'Evaluacion/encuesta.html', context=context)
@@ -111,6 +110,7 @@ def encuesta(request):
     
 @login_required()
 def procesar_pregunta(request):
+    #Hacer que se pueda devolver sin llenar toda la pregunta **********************Falta***************
     if request.method == 'POST':
     # Si es numérica o abierta
         asignaturas = informacionAsignaturas(request.user.username)
@@ -123,7 +123,6 @@ def procesar_pregunta(request):
         respuestas = request.session['respuestas']
         respuestas[codpregunta] = dict()
         if metodo == 'Numérica':
-
             try:
                 for i in codgrupo:
                     respuestas[codpregunta][i] = int(request.POST.get(f'respuesta_{i}'))
@@ -134,7 +133,6 @@ def procesar_pregunta(request):
                 print("Hola")
                 return redirect('evaluacion:encuesta')
         elif metodo == 'Abierta':
-            pprint(request.POST)
             for i in codgrupo:
                 respuesta = request.POST.get(f'respuesta_{i}')
                 if respuesta:
@@ -144,7 +142,6 @@ def procesar_pregunta(request):
             request.session['respuestas'] = respuestas
         
     #Actualizar el índice
-    pprint(request.POST)
     if request.POST.get('accion')=='Siguiente':
         request.session['indice'] += 1
         
@@ -157,4 +154,15 @@ def procesar_pregunta(request):
     return redirect('evaluacion:encuesta')
 
 def finalizar_encuesta(request):
+    # Enviar datos a la base de datos
+    preguntas=obtenerPreguntas()
+    pprint(preguntas)
+    respuestas = request.session['respuestas']
+    pprint(respuestas)
+    #Enviar a función que guarde en la base de datos
+    #Respuestas: {idpregunta:{idgrupo:calificacion}}
+    enviarRespuestas(request.user.username, respuestas, preguntas)
+    #Impedir que alguien repita la encuesta
     return HttpResponse("Felicidades, ha terminado la encuesta.")
+
+
