@@ -36,16 +36,24 @@ CREATE PROCEDURE sp_infoest (username VARCHAR(45))
 
 -- Registrar la evaluación numérica de un estudiante en un grupo específico.
 
-CREATE PROCEDURE sp_evalnum (numpre INT, idest INT, codgru INT, eval INT)
+CREATE PROCEDURE sp_evalnum (numpre INT, usuario VARCHAR(45), codgru INT, eval INT)
 	BEGIN
+		DECLARE idest INT;
+        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
+        WHERE per_Usuario=usuario;
+        
 		INSERT INTO evaluacion_numerica(pre_Numero, est_ID, gru_Codigo, eva_Calificacion)
         VALUES(numpre, idest, codgru, eval);
     END $$
 
 -- Registrar la evaluación abierta de un estudiante en un grupo específico.
 
-CREATE PROCEDURE sp_evalabi (numpre INT, idest INT, codgru INT, eval TEXT(2000))
+CREATE PROCEDURE sp_evalabi (numpre INT, usuario VARCHAR(45), codgru INT, eval TEXT(2000))
 	BEGIN
+		DECLARE idest INT;
+        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
+        WHERE per_Usuario=usuario;
+    
 		INSERT INTO evaluacion_abierta(pre_Numero, est_ID, gru_Codigo, eva_Calificacion)
         VALUES(numpre, idest, codgru, eval);
     END $$
