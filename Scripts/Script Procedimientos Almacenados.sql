@@ -1,6 +1,7 @@
 -- Creación de procedimientos almacenados
 DROP PROCEDURE IF EXISTS sp_encuestarealizada;
 DROP PROCEDURE IF EXISTS sp_gruposest;
+DROP PROCEDURE IF EXISTS sp_gruposprof;
 DROP PROCEDURE IF EXISTS sp_infoest;
 DROP PROCEDURE IF EXISTS sp_evalnum;
 DROP PROCEDURE IF EXISTS sp_evalabi;
@@ -34,6 +35,18 @@ CREATE PROCEDURE sp_gruposest (usuario VARCHAR(45))
 		SELECT gru_codigo,asi_Nombre,asi_creditos,per_Nombres,per_Apellidos
         FROM grupo_estudiante NATURAL JOIN grupo NATURAL JOIN asignatura JOIN persona ON pro_ID=per_ID
 		WHERE est_ID=idest;
+    END $$
+    
+-- Obtener la lista de grupos en los que dicta un profesor.
+CREATE PROCEDURE sp_gruposprof (usuario VARCHAR(45))
+	BEGIN
+		DECLARE idprof INT;
+        SELECT pro_ID INTO idprof FROM profesor JOIN persona ON pro_ID=per_ID
+        WHERE per_Usuario=usuario;
+        
+		SELECT gru_Codigo, asi_Nombre
+        FROM grupo NATURAL JOIN asignatura
+		WHERE pro_ID=idprof;
     END $$
 
 -- Obtener la información personal de un estudiante (nombre, apellidos, etc.).
