@@ -16,4 +16,5 @@ urlpatterns = [
     path('finalizar_encuesta/', views.finalizar_encuesta, name='finalizar_encuesta'),
 
     path('preguntas_evaluativas/', views.preguntas_evaluativas, name='preguntas_evaluativas'),
+    path('documentacion/', views.documentacion, name='documentacion'),
 ]

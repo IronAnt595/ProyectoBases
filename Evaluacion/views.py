@@ -186,6 +186,12 @@ def preguntas_evaluativas(request):
         return render(request, 'Evaluacion/error_login.html')
 
 # documentación
+@login_required()
+def documentacion(request):
+    if request.user.groups.filter(name='Profesor').exists():
+        return render(request, 'Evaluacion/documentacion.html')
+    else:
+        return render(request, 'Evaluacion/error_login.html')
 # consultar mis resultados
 
 
