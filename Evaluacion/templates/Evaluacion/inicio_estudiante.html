@@ -1,18 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio Estudiante</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    {% load static %}
+    <link
+        href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'Evaluacion/inicio_estudiante.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+
+    <!-- -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="normalize.css"> -->
+    <title>Inicio(Estudiante)</title>
 </head>
+
 <body>
-    <h1>¡Bienvenido, Estudiante!</h1>
-    A través de la presente página, en el menú derecho, podrá calificar el desempeño de los docentes con quienes estuvo en contacto en el presente periodo y el desarrollo de las asignaturas asociadas a su plan de estudios que cursó durante el semestre.
-    En el menú izquierdo, podrá consultar su información personal haciendo clic en “Estudiante” o consultar la información de las asignaturas que inscribió en este semestre en “Asignaturas”.
-    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
-    <a href="{% url 'evaluacion:info_encuesta' %}">Iniciar Encuesta</a>
-    <a href="{% url 'evaluacion:info_estudiante' %}">Información Estudiante</a>
-    <a href="{% url 'evaluacion:info_asignaturas' %}">Información Asignaturas</a>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+
+
+    <article>
+        <div class="box_title">
+            <h1 class="article__h1">Bienvenido(a) Estudiante!</h1>
+        </div>
+
+
+        <div class="box-content">
+
+            <div class="sidebar">
+                <ul>
+                    <li class="sidebar__li"><a href="{% url 'evaluacion:info_estudiante' %}"><i
+                                class="fas fa-graduation-cap" style="color: #ffffff;"></i>Estudiante</a></li>
+                    <li class="sidebar__li"><a href="{% url 'evaluacion:info_asignaturas' %}"><i class="fas fa-book"
+                                style="color: #ffffff;"></i>Asignaturas</a></li>
+
+                </ul>
+            </div>
+
+            <p class="article__p">A través de la presente página, en el menú derecho, podrá calificar el desempeño de
+                los docentes con quienes estuvo en contacto en el presente periodo y el desarrollo de las asignaturas
+                asociadas a su plan de estudios que cursó durante el semestre. <br>
+
+                En el menú izquierdo, podrá consultar su información personal haciendo clic en “Estudiante” o consultar
+                la información de las asignaturas que inscribió en este semestre en “Asignaturas”.</p>
+            <a href="{% url 'evaluacion:info_encuesta' %}" class="buttom-encuesta">Realizar la Evaluación Integral del
+                semestre 2023-1</a>
+        </div>
+        </div>|
+    </article>
+
+    <footer class="box-logout">
+        <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </footer>
 </body>
+
 </html>
