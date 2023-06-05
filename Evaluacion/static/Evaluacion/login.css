@@ -1,0 +1,334 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+html {
+    font-size: 62.5%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body
+{
+    display: flex;
+   
+    
+    
+}
+.login{
+    position: fixed;
+    right:0px;
+    width: 50vw;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.lateral{
+    position: fixed;
+    left:0px;
+    width: 50vw;
+    height: 100%;
+}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 100%;
+    position: relative;
+    background: #226F54;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+    padding:10px;
+    border-radius: 0px 20px 20px 0px;
+}
+
+
+.sidebar img {
+    display: block;
+    position: relative;
+    width:200px;
+    left:10px;
+}
+
+.title{
+    position: relative;
+    height: 80%;
+    margin: 15%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.title h1{
+    color: white;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 0.1rem;
+}
+
+
+.box_title h2{
+    background-color: #226F54;
+    margin:10px auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 20px;
+    color: white;
+    font-size: 3rem;
+    font-family: 'League Spartan', sans-serif;
+    width: 380px;
+}
+.box_title{
+    margin: auto auto 0px auto;
+    text-align: center;
+}
+
+
+
+.box
+{
+    position: relative;
+    width: 380px;
+    height:420px;
+    background: #87C38F;
+    border-radius: 8px;
+    overflow: hidden;
+    right:0px;
+    margin: 0px auto auto auto;
+}
+.box::before
+{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height:420px;
+    background: linear-gradient(0deg,transparent,transparent,#226F54,#226F54,#226F54);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+}
+.box::after
+{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height:420px;
+    background: linear-gradient(0deg,transparent,transparent,#226F54,#226F54,#226F54);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -3s;
+}
+
+.buttoms{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+
+.buttom-login{
+    background-color: #226F54;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 20px;
+    border-style:none;
+    padding: 1rem;
+    font-weight: 500;
+    color: white;
+    font-size: 1.8rem;
+    font-family: 'League Spartan', sans-serif;
+    box-shadow: 10px 10px 14px -6px rgba(0,0,0,0.54);
+}
+
+.buttom-login:hover{
+    padding: 1rem;
+    background-color: #215e49;
+}
+
+.buttom-rol{
+    background-color: #87C38F;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 20px;
+    border-style:none;
+    padding: 1rem;
+    font-weight: 500;
+    color: white;
+    font-size: 1.8rem;
+    font-family: 'League Spartan', sans-serif;
+    box-shadow: 10px 10px 14px -6px rgba(0,0,0,0.54);
+}
+
+.buttom-rol:hover{
+    padding: 1rem;
+    background-color: #599261;
+}
+
+@keyframes animate 
+{
+    0%
+    {
+        transform: rotate(0deg);
+    }
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
+.box form
+{
+    position: absolute;
+    inset: 4px;
+    background:white;
+    padding: 50px 40px;
+    border-radius: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.box form h2
+{
+    color: #000000;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    text-align: center;
+    font-size: 2rem;
+    
+}
+
+.box form .inputBox
+{
+    position: relative;
+    width: 300px;
+    margin-top: 35px;
+}
+
+.box form .inputBox input
+{
+    position: relative;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: transparent;
+    outline: none;
+    border-radius: 10px;
+    color: #23242a;
+    font-size: 1.9rem;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.box form .inputBox span
+{
+    position: absolute;
+    left: 0;
+    padding: 20px 5px 10px;
+    pointer-events: none;
+    color: #8f8f8f;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.box form .inputBox input:valid ~ span,
+.box form .inputBox input:focus ~ span
+{
+    color: black;
+    font-size: 1.8rem;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    transform: translateY(-34px);
+
+}
+
+.box form .inputBox i
+{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+
+.box form .inputBox input:valid ~ i,
+.box form .inputBox input:focus ~ i
+{
+    height: 44px;
+}
+
+.box form .links
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.box form .links a
+{
+    margin: 10px 0 20px;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #000000;
+    text-decoration: none;
+
+}
+
+.box form .links a:hover,
+.box form .links a:nth-child(2)  
+{
+    color: #226F54;
+}
+
+.box form .inputBox input[type="submit"]
+{
+    border: none;
+    outline: none;
+    padding: 9px 25px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.error{
+
+    background-color: #DA2C38;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 20px;
+    padding: 1rem;
+    font-weight: 500;
+    color: white;
+    font-size: 1.8rem;
+    font-family: 'League Spartan', sans-serif;
+    box-shadow: 5px 5px 7px -6px rgba(0,0,0,0.54);
+    position:absolute;
+    top: 2rem;
+    margin: auto;
+
+}
