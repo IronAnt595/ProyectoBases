@@ -196,35 +196,59 @@ def documentacion(request):
 #resultados numéricos
 @login_required()
 def resultados_numericos(request):
+    #Obtener los resultados numéricos de la base de datos
     if request.user.groups.filter(name='Profesor').exists():
         #Obtener las preguntas
         preguntass = obtenerPreguntas()
         preguntas = dict()
         for pregunta in preguntass:
-            if pregunta[2] == 'Numérica':
+            if pregunta[2] == 'Numérica': #Obtener las preguntas numéricas
                 numpregunta = pregunta[0]
                 preguntas[numpregunta] = {'descripcion': pregunta[1],
                                         }
                 #Obtener los grupos del profesor
-                grupos = obtenerGruposProfesor(request.user.username)
+                grupos = obtenerGruposProfesor(request.user.username) 
                 for grupo in grupos:
                     codgrupo = grupo[0]
                     asignatura = grupo[1]
-                    hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo)
+                    hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo) #Llamar a un procedimiento almacenado
                     grafico=pie_chart(hola)
                     preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
                                                       'resultados': hola,
-                                                      'grafico': grafico,}
-        #Obtener los resultados numéricos de la base de datos
-            #Llamar a un procedimiento almacenado
-                #Obtener los grupos del profesor
-                #Obtener las preguntas numéricas
+                                                      'grafico': grafico,}   
         #Enviar a la vista
         context = {'preguntas': preguntas}
-        # pprint(context)
         return render(request, 'Evaluacion/resultados_numericos.html', context)
     else:
         return render(request, 'Evaluacion/error_login.html')
+    
 #resultados abiertos
+@login_required()
+def resultados_abiertos(request):
+    #Obtener los resultados abiertos de la base de datos
+    if request.user.groups.filter(name='Profesor').exists():
+        #obtener las preguntas
+        preguntass = obtenerPreguntas() 
+        preguntas = dict()
+        for pregunta in preguntass:
+            if pregunta[2] == "Abierta": #Obtener las preguntas abiertas
+                numpregunta = pregunta[0]
+                preguntas[numpregunta] = {'descripcion': pregunta[1],
+                                        }
+                #Obtener los grupos del profesor
+                grupos = obtenerGruposProfesor(request.user.username) 
+                for grupo in grupos:
+                    codgrupo = grupo[0]
+                    asignatura = grupo[1]
+                    hola = obtenerResultadosAbiertos(request.user.username, numpregunta, codgrupo)
+                    preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                        'resultados': hola,}
+        #Enviar a la vista
+        context = {'preguntas': preguntas}
 
+        pprint(context)
+        return render(request, 'Evaluacion/resultados_abiertos.html', context)
+    else:
+        return render(request, 'Evaluacion/error_login.html')
+    return HttpResponse("Hola")
 

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados Numéricos</title>
+    <title>Resultados Abiertos</title>
 </head>
 <body>
-    <h1>Resultados numéricos:</h1>
-    Calificación Numérica:
+    <h1>Resultados Abiertos</h1>
+    Calificación Abierta:
     <br>
     {% for pregunta, contenido in preguntas.items %}
         <strong>Pregunta {{ forloop.counter }}:</strong><br>
@@ -20,7 +20,9 @@
             {% if grupo != "descripcion" %}
                 <div>Grupo {{ grupo}} {{ resultados.asignatura }}:
                     {% if resultados.resultados %}
-                        <div><img src="data:image/png;base64,{{ resultados.grafico }}"></div>
+                        {% for respuesta in resultados.resultados %}
+                            <div>{{ respuesta }}</div>
+                        {% endfor %}
                     {% else %}
                         <div>No hay resultados disponibles</div>
                     {% endif %}
@@ -31,8 +33,10 @@
         {% endfor %}
         <br>
     {% endfor %}
+
     <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-    <a href="{% url 'evaluacion:resultados_abiertos' %}">Calificación Abierta</a>
+    <a href="{% url 'evaluacion:resultados_numericos' %}">Calificación Numérica</a>
     <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+
 </body>
 </html>
