@@ -100,6 +100,16 @@ def obtenerResultadosNumericos(username, numpregunta,codgrupo):
             numericos[resultado[0]] = resultado[1]
         return numericos
     
+#Obtener los resultados abiertos
+def obtenerResultadosAbiertos(username, numpregunta,codgrupo):
+    with connection.cursor() as cursor:
+        abiertos = []
+        cursor.execute("call sp_caliabierta(%s,%s,%s)",[numpregunta,username,codgrupo])
+        resultados = cursor.fetchall()
+        for resultado in resultados:
+            abiertos.append(resultado[0])
+        return abiertos
+    
 #Obtener los grupos de cada profesor
 def obtenerGruposProfesor(username):
     with connection.cursor() as cursor:
