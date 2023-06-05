@@ -105,10 +105,14 @@ CREATE PROCEDURE sp_calinumerica (numpre INT, usuario VARCHAR(45), codgru INT)
 
 -- Mostrar las calificaciones abiertas de un profesor específico en una pregunta específica
 
-CREATE PROCEDURE sp_caliabierta (numpre INT, idprof INT)
+CREATE PROCEDURE sp_caliabierta (numpre INT, usuario VARCHAR(45), codgru INT)
 	BEGIN
-		SELECT eva_Calificacion FROM evaluacion_numerica NATURAL JOIN grupo
-        WHERE pre_Numero=numpre AND pro_ID=idprof;
+		DECLARE idprof INT;
+        SELECT pro_ID INTO idprof FROM profesor JOIN persona ON pro_ID=per_ID
+        WHERE per_Usuario=usuario;
+		
+		SELECT eva_Calificacion FROM evaluacion_abierta NATURAL JOIN grupo
+        WHERE pre_Numero=numpre AND pro_ID=idprof AND gru_codigo=codgru;
     END $$
     
 -- Mostrar la calificación promedio de un profesor en todas las preguntas en un periodo académico específico
