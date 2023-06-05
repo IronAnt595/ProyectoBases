@@ -250,5 +250,7 @@ def resultados_abiertos(request):
         return render(request, 'Evaluacion/resultados_abiertos.html', context)
     else:
         return render(request, 'Evaluacion/error_login.html')
-    return HttpResponse("Hola")
+    
+#Vistas de directivo
+
 
