@@ -4,15 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/bienvenida.css' %}">
     <title>Bienvenida</title>
 </head>
 <body>
-    <p>¡Bienvenido(a)! Elija su rol:</p>
-    <form action="{% url 'evaluacion:bienvenida' %}" method="post">
+
+    <div class="sidebar">
+        
+        <picture class="picture">
+            <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+        </picture>
+        <div class="title">
+            <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+        </div>
+        
+    </div>
+    
+        <div class="login">
+            <div class="box_title">
+            <h2>¡Bienvenido a EDIFICANDO!</h2>
+        </div>
+    <div class="box">
+    <p class="text">EDIFICANDO es el conjunto de instrumentos, aplicaciones y procesos de la Universidad Nacional de Colombia que permite entregarle a los docentes y a las diferentes instancias institucionales información oportuna sobre su desempeño, obtenida mediante la valiosa participación de diferentes perspectivas de la comunidad académica.
+    <br>
+    <br>
+     Esta información deberá analizarse y valorarse en conjunto y de manera integral e integrada, con el objeto de descubrir fortalezas y debilidades, y así emprender acciones individuales, colectivas e institucionales de mejoramiento continuo de la calidad docente.</p>
+
+    <h3 class="subtitle"> Para continuar, haga clic en su rol dentro de la comunidad académica.</h3>
+    </div>
+
+    <form class="flex-container" action="{% url 'evaluacion:bienvenida' %}" method="post">
         {% csrf_token %}
-        <button type="submit" name="rol" value="Estudiante">Estudiante</button>
-        <button type="submit" name="rol" value="Profesor">Profesor</button>
-        <button type="submit" name="rol" value="Administrativo">Administrativo</button>
+        <button class="buttom-rol" type="submit" name="rol" value="Estudiante">
+            <img src="{% static 'Evaluacion/estudiante.png' %}" alt="Imagen Estudiante">
+            <h3>Estudiante</h3>
+        </button>
+        <button class="buttom-rol" type="submit" name="rol" value="Profesor">
+            <img src="{% static 'Evaluacion/profesor.png' %}" alt="Imagen Estudiante">
+            <h3>Profesor</h3>
+        </button>
+        <button class="buttom-rol" type="submit" name="rol" value="Administrativo">
+            <img src="{% static 'Evaluacion/admin.png' %}" alt="Imagen Estudiante">
+            <h3>Administrativo</h3>
+        </button>
     </form>
 </body>
 </html>
