@@ -207,8 +207,8 @@ DROP FUNCTION IF EXISTS remover_acentos;
 DROP PROCEDURE IF EXISTS sp_creargrupos;
 
 DELIMITER $$
-CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45),
-PAPA float, PAPPI float, PA float, grado varchar(45), codcarrera INT)
+CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45), codcarrera INT,
+PAPA float, PAPPI float, PA float, grado varchar(45))
 	BEGIN
 		DECLARE persona_id INT;
         
@@ -290,7 +290,7 @@ BEGIN
 END $$
 
 -- Procedimiento para crear grupos
-CREATE PROCEDURE sp_creargrupos(asinombre VARCHAR(45), anno INT, sem INT, pronombre VARCHAR(45), proapellido VARCHAR(45))
+CREATE PROCEDURE sp_creargrupos(asicodigo VARCHAR(45), anno INT, sem INT, pronombre VARCHAR(45), proapellido VARCHAR(45))
 	BEGIN 
 		DECLARE idasig INT;
         DECLARE idprofesor INT;

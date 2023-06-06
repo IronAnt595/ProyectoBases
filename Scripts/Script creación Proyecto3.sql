@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Sede (
 
 CREATE TABLE IF NOT EXISTS Facultad (
   fac_Codigo INT NOT NULL,
-  fac_Nombre VARCHAR(45) NOT NULL,
+  fac_Nombre VARCHAR(90) NOT NULL,
   sed_Codigo INT NOT NULL,
   PRIMARY KEY (fac_Codigo),
   FOREIGN KEY (sed_Codigo)
