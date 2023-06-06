@@ -4,53 +4,94 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información Estudiante</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/info_estudiante.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    <title>Información personal</title>
 </head>
 <body>
-    Datos Personales:
-    <table>
-        <tr>
-          <td>Usuario</td>
-          <td>{{ usuario }}</td>
-        </tr>
-        <tr>
-          <td>Nombres</td>
-          <td>{{ nombres }}</td>
-        </tr>
-        <tr>
-            <td>Apellidos</td>
-            <td>{{ apellidos }}</td>
-        </tr>
-        <tr>
-            <td>Sede</td>
-            <td>{{ sede }}</td>
-        </tr>
-        <tr>
-            <td>Facultad</td>
-            <td>{{ facultad }}</td>
-        </tr>
-        <tr>
-            <td>Grado</td>
-            <td>{{ grado }}</td>
-        </tr>
-        <tr>
-            <td>Carrera</td>
-            <td>{{ carrera }}</td>
-        </tr>
-        <tr>
-            <td>PAPA</td>
-            <td>{{ PAPA }}</td>
-        </tr>
-        <tr>
-            <td>PAPPI</td>
-            <td>{{ PAPPI }}</td>
-        </tr>
-        <tr>
-            <td>PA</td>
-            <td>{{ PA }}</td>
-        </tr>
-      </table>
-      <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-      <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article>
+        <div class="box_title">
+            <h1 class="article__h1">Datos Personales</h1>
+        </div>
+
+
+        <div class="box-content">
+
+            <div class="sidebar">
+                <ul>
+                    <li class="sidebar__li"><a href="{% url 'evaluacion:info_estudiante' %}"><i
+                                class="fas fa-graduation-cap" style="color: #ffffff;"></i>Estudiante</a></li>
+                    <li class="sidebar__li"><a href="{% url 'evaluacion:info_asignaturas' %}"><i class="fas fa-book"
+                                style="color: #ffffff;"></i>Asignaturas</a></li>
+
+                </ul>
+            </div>
+            <div class="table">
+                <table>
+                    <tr>
+                        <td class="table-item">Usuario</td>
+                        <td class="table-info">{{ usuario }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Nombres</td>
+                        <td class="table-info">{{ nombres }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Apellidos</td>
+                        <td class="table-info">{{ apellidos }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Sede</td>
+                        <td class="table-info">{{ sede }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Facultad</td>
+                        <td class="table-info">{{ facultad }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Grado</td>
+                        <td class="table-info">{{ grado }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">Carrera</td>
+                        <td class="table-info">{{ carrera }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">PAPA</td>
+                        <td class="table-info">{{ PAPA }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">PAPPI</td>
+                        <td class="table-info">{{ PAPPI }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-item">PA</td>
+                        <td class="table-info">{{ PA }}</td>
+                    </tr>
+                    </table>
+            </div>
+        </div>
+
+    </article>
+    <footer class="box-buttoms">
+        
+        <a href="{% url 'evaluacion:inicio' %}" class="return">Volver al menú</a>
+        <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </footer>
+      
 </body>
 </html>
