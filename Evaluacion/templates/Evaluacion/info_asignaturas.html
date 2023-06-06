@@ -4,30 +4,66 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/info_asignaturas.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
     <title>Información Asignaturas</title>
 </head>
 <body>
-    Información de Asignaturas:
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
 
-    {% if asignaturas %}
-        <table>
-            <tr>
-                <th>Código Grupo</th>
-                <th>Asignatura</th>
-                <th>Docente</th>
-            </tr>
-            {% for asignatura in asignaturas %}
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article>
+        <div class="box_title">
+            <h1 class="article__h1">Información de Asignaturas</h1>
+        </div>
+    <div class="box-content">
+    
+        <div class="sidebar">
+            <ul>
+                <li class="sidebar__li"><a href="{% url 'evaluacion:info_estudiante' %}"><i
+                            class="fas fa-graduation-cap" style="color: #ffffff;"></i>Estudiante</a></li>
+                <li class="sidebar__li"><a href="{% url 'evaluacion:info_asignaturas' %}"><i class="fas fa-book"
+                            style="color: #ffffff;"></i>Asignaturas</a></li>
+
+            </ul>
+        </div>
+        <div class="table">
+        {% if asignaturas %}
+            <table>
                 <tr>
-                    <td>{{ asignatura.codigogrupo }}</td>
-                    <td>{{ asignatura.nombre }}</td>
-                    <td>{{ asignatura.profesor }}</td>
+                    <th >Código Grupo</th>
+                    <th>Asignatura</th>
+                    <th>Docente</th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for asignatura in asignaturas %}
+                    <tr>
+                        <td>{{ asignatura.codigogrupo }}</td>
+                        <td>{{ asignatura.nombre }}</td>
+                        <td>{{ asignatura.profesor }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
     {% else %}
-        <p>No hay asignaturas registradas.</p>
+        <p class="error">No hay asignaturas registradas.</p>
     {% endif %}
-    <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    </article>
+    <footer class="box-buttoms">
+        
+        <a href="{% url 'evaluacion:inicio' %}" class="return">Volver al menú</a>
+        <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </footer>
 </body>
 </html>
