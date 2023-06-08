@@ -171,7 +171,7 @@ CALL sp_insEstudiante('Federico', 'Vargas', 16, 4.5, 4.8, 4.3, "Pregrado");
 -- Profesores
 -- ----------------------------------------------------------------------------------
 
-CALL sp_insProfesor('Juan', 'Pérez');
+CALL sp_insProfesor('Rodrigo', 'Pérez');
 CALL sp_insProfesor('María', 'Gómez');
 CALL sp_insProfesor('Carlos', 'López');
 CALL sp_insProfesor('Ana', 'Ramírez');
@@ -547,19 +547,3 @@ INSERT INTO Grupo_Estudiante (gru_Codigo, est_ID) VALUES
         (73, 18),
         (74, 24),
         (74, 6);
-
-/*
--- ----------------------------------------------------------------------------------
--- Evaluación Numérica
--- ----------------------------------------------------------------------------------
-INSERT INTO evaluacion_numerica(pre_Numero, est_ID, gru_Codigo, eva_Calificacion)VALUES
-(numpre, idest, codgru, eval),
-(1, 1, 1000001, 4),
-(1, 28, 1000001, 5),
-(1, 1, 1000002, 3),
-(1, 28, 1000002, 4),
-(1, 25, 1000002, 5),
-(1, 2, 1000003, 4),
-
-sp_evalnum (numpre INT, usuario VARCHAR(45), codgru INT, eval INT)
-CALL sp_evalnum (*/
