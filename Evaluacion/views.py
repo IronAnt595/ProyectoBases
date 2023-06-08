@@ -60,6 +60,7 @@ def inicio(request):
 def info_estudiante(request):
     if request.user.groups.filter(name='Estudiante').exists():
         datos=informacionEstudiante(request.user.username)
+        datos={'datos':datos}
         return render(request, 'Evaluacion/info_estudiante.html', context=datos)
     else:
         return render(request, 'Evaluacion/error_login.html')
@@ -253,4 +254,28 @@ def resultados_abiertos(request):
     
 #Vistas de directivo
 
+# # Modficación de preguntas
+# # Mostrar Preguntas
+# @login_required()
+# def mostrar_preguntas(request):
+#     if request.user.groups.filter(name='Administrativo').exists():
+#         preguntass = obtenerPreguntas()
+#         preguntas = {'abiertas':{},
+#                     'numericas':{},}
+#         for pregunta in preguntass:
+#             if pregunta[2]=="Abierta":
+#                 numpregunta = pregunta[0]
+#                 preguntas['abiertas'][numpregunta] = {'descripcion': pregunta[1]}
+#             elif pregunta[2] == "Numérica":
+#                 numpregunta = pregunta[0]
+#                 preguntas['numericas'][numpregunta] = {'descripcion': pregunta[1]}
+#         pprint(preguntas)
+#         if request.method=="POST":
+#             pprint(request.POST)
+#             if request.POST.get('accion')=='Modificar':
+#                 return redirect('evaluacion:modificar_pregunta')
+            
+#         return render(request, 'Evaluacion/mostrar_preguntas.html', preguntas)
+#     else:
+#         return render(request, 'Evaluacion/error_login.html')
 
