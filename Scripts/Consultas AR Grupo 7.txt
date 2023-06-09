@@ -1,0 +1,29 @@
+-- Consulta 1 
+-- πcar_Nombre, Promedio, Cantidad(γcar_Codigo;count(est_ID)->Cantidad(σpre_Evaluado='Profesor' ∧ pre_Numero=11 (estudiante ⨝ grupo_estudiante ⨝ evaluacion_numerica ⨝ pregunta)) ⨝ γcar_Codigo;avg(eva_Calificacion)->Promedio(σpre_Evaluado='Profesor' ∧ pre_Numero=11 (estudiante ⨝ grupo_estudiante ⨝ evaluacion_numerica ⨝ pregunta)))
+
+--  Consulta 2
+-- (πper_ID, per_Nombres, per_Apellidos(persona ⨝ per_ID=pro_ID ⨝ profesor ⨝ grupo ⨝ evaluacion_numerica))⨝(γper_ID;AVG(eva_Calficacion)->Calificacion(persona ⨝ per_ID=pro_ID ⨝ profesor ⨝ grupo ⨝ evaluacion_numerica))
+
+-- Consulta 3
+-- πper_Nombres, per_Apellidos, Cuenta(σCuenta>=6(γper_ID;COUNT(est_ID)->Cuenta(persona ⨝ per_ID=pro_ID profesor ⨝ grupo ⨝ (σpre_numero=1(evaluacion_numerica))))
+
+-- Consulta 4
+-- πcar_Nombre, promedio_PAPA(γcar_Nombre;AVG(est_PAPA)->promedio_PAPA(estudiante ⨝ carrera))
+
+-- Consulta 5
+-- πasi_Nombre, Promedio(γasi_Codigo;AVG(eva_Calificacion)->Promedio(σpre_Numero=2(evaluacion_numerica)) ⨝ grupo ⨝ asignatura ⨝ (σfac_Nombre='Facultad de Ingeniería'(facultad)))
+
+-- Consulta 6
+-- πper_ID, per_Nombres, per_Apellidos((σest_Evaluacion(estudiante)) ⨝ per_ID=est_ID persona ⨝ (σcar_nombre='Ingeniería de Sistemas y Computación'∨car_nombre='Medicina'(carrera)))
+
+-- Consulta 7
+-- πasi_Nombre,TotalEstudiantes(γasi_Codigo;count(est_ID)->TotalEstudiantes(Grupo⨝Grupo_Estudiante)⨝Asignatura)
+
+-- Consulta 8
+-- πsed_Nombre, NumeroFacultad((γsed_Codigo;count(fac_Codigo)->NumeroFacultad(Facultad))⨝Sede)
+
+-- Consulta 9
+-- πpro_Nombres, pro_Apellidos,PromedioPregunta5(σPromedioPregunta5>3(γpro_ID;avg(eva_Calificacion)->PromedioPregunta5(Profesor ⨝ pro_ID=per_ID Persona ⨝ grupo ⨝ evaluacion_numerica))⨝Profesor)
+
+-- Consulta 10
+-- γfac_Nombre;sum(asi_Creditos)->SumaCreditos(Asignatura⨝(Facultad))
