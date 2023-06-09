@@ -1,5 +1,4 @@
 -- Creación de procedimientos almacenados
-DROP PROCEDURE IF EXISTS sp_encuestarealizada;
 DROP PROCEDURE IF EXISTS sp_gruposest;
 DROP PROCEDURE IF EXISTS sp_gruposprof;
 DROP PROCEDURE IF EXISTS sp_infoest;
@@ -8,25 +7,13 @@ DROP PROCEDURE IF EXISTS sp_evalabi;
 DROP PROCEDURE IF EXISTS sp_calinumerica;
 DROP PROCEDURE IF EXISTS sp_caliabierta;
 DROP PROCEDURE IF EXISTS sp_promtotaleval;
-DROP PROCEDURE IF EXISTS sp_infoprof;
-DROP PROCEDURE IF EXISTS sp_profs;
 DROP PROCEDURE IF EXISTS sp_diagnum;
 DROP PROCEDURE IF EXISTS sp_aggpregunta;
 DROP PROCEDURE IF EXISTS sp_modpregunta;
 DROP PROCEDURE IF EXISTS sp_delpregunta;
 
--- Verificar si un estudiante realizó la encuesta
-DELIMITER $$
-CREATE PROCEDURE sp_encuestarealizada(usuario VARCHAR(45))
-	BEGIN
-		DECLARE idest INT;
-        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
-        WHERE per_Usuario=usuario;
-        
-        SELECT est_Evaluacion FROM estudiante WHERE est_ID=idest;
-    END $$
-
 -- Obtener la lista de grupos en los que está inscrito un estudiante.
+DELIMITER $$
 CREATE PROCEDURE sp_gruposest (usuario VARCHAR(45))
 	BEGIN
 		DECLARE idest INT;
@@ -123,20 +110,6 @@ CREATE PROCEDURE sp_promtotaleval (idprof INT, OUT promedio FLOAT, anho INT, sem
         WHERE pro_ID=idprof AND gru_Anno=anho AND gru_Semestre=sem;
     END $$
     
--- Mostrar la información personal del profesor
-
-CREATE PROCEDURE sp_infoprof (idprof INT)
-	BEGIN
-		SELECT * FROM Profesor;
-    END $$
-
--- Mostrar todos los profesores
-
-CREATE PROCEDURE sp_profs()
-	BEGIN
-		SELECT pro_Nombres, pro_Apellidos FROM Profesor;
-    END $$
-    
 -- Agrupar por calificaciones para hacer un diagrama de torta en calificaciones numéricas en una
 -- pregunta específica a un profesor específico en un grupo específico
     
@@ -184,29 +157,36 @@ GRANT EXECUTE ON PROCEDURE sp_evalabi TO rol_Estudiante;
 GRANT EXECUTE ON PROCEDURE sp_profs TO rol_Estudiante;
 
 -- Para Profesor
-GRANT EXECUTE ON PROCEDURE sp_promeval TO rol_Profesor;
+GRANT EXECUTE ON PROCEDURE sp_calinumerica TO rol_Profesor;
 GRANT EXECUTE ON PROCEDURE sp_caliabierta TO rol_Profesor;
 GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Profesor;
-GRANT EXECUTE ON PROCEDURE sp_infoprof TO rol_Profesor;
-GRANT EXECUTE ON PROCEDURE sp_diagnum TO rol_Profesor;
 
 -- Para Directivo
 GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Directivo;
-GRANT EXECUTE ON PROCEDURE sp_diagnum TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_aggpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_modpregunta TO rol_Directivo;
 GRANT EXECUTE ON PROCEDURE sp_delpregunta TO rol_Directivo;
-GRANT EXECUTE ON PROCEDURE sp_promtotaleval TO rol_Directivo;
 */
 
 -- Procedimientos para inserción de Estudiantes y Profesores
+DROP PROCEDURE IF EXISTS sp_encuestarealizada;
 DROP PROCEDURE IF EXISTS sp_insEstudiante;
 DROP PROCEDURE IF EXISTS sp_insProfesor;
 DROP FUNCTION IF EXISTS generar_usuario;
 DROP FUNCTION IF EXISTS remover_acentos;
-DROP PROCEDURE IF EXISTS sp_creargrupos;
 
+-- Verificar si un estudiante realizó la encuesta
 DELIMITER $$
+CREATE PROCEDURE sp_encuestarealizada(usuario VARCHAR(45))
+	BEGIN
+		DECLARE idest INT;
+        SELECT est_ID INTO idest FROM estudiante JOIN persona ON est_ID=per_ID
+        WHERE per_Usuario=usuario;
+        
+        SELECT est_Evaluacion FROM estudiante WHERE est_ID=idest;
+    END $$
+    
+-- Insertar un estudiante    
 CREATE PROCEDURE sp_insEstudiante(nombres VARCHAR(45), apellidos VARCHAR(45), codcarrera INT,
 PAPA float, PAPPI float, PA float, grado varchar(45))
 	BEGIN
@@ -288,29 +268,5 @@ BEGIN
 
     RETURN normalized_str;
 END $$
-
--- Procedimiento para crear grupos
-CREATE PROCEDURE sp_creargrupos(asicodigo VARCHAR(45), anno INT, sem INT, pronombre VARCHAR(45), proapellido VARCHAR(45))
-	BEGIN 
-		DECLARE idasig INT;
-        DECLARE idprofesor INT;
-        DECLARE numgrupo INT;
-        SELECT asi_Codigo INTO idasig FROM asignatura WHERE asi_Nombre=asinombre;
-        
-        SELECT pro_ID INTO idprofesor FROM profesor JOIN persona ON pro_ID=per_ID
-        WHERE per_Nombres=pronombre AND per_Apellidos=proapellido;
-        
-        IF (SELECT count(*) FROM grupo
-        WHERE asi_codigo=idasig AND gru_Anno=anno AND gru_Semestre=sem)=0 THEN
-			SET numgrupo=1;
-		ELSE             
-			SELECT max(gru_Numero)+1 INTO numgrupo FROM grupo
-			WHERE asi_codigo=idasig AND gru_Anno=anno AND gru_Semestre=sem;
-		END IF;
-        
-        INSERT INTO grupo(asi_Codigo, gru_Numero, gru_Anno, gru_Semestre, pro_ID)
-        VALUES (idasig, numgrupo, anno, sem, idprofesor);
-        
-    END $$
     
 DELIMITER ;
