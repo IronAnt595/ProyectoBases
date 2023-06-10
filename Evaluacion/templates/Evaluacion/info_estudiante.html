@@ -40,50 +40,54 @@
 
                 </ul>
             </div>
+            {% if datos %}
             <div class="table">
                 <table>
                     <tr>
                         <td class="table-item">Usuario</td>
-                        <td class="table-info">{{ usuario }}</td>
+                        <td class="table-info">{{ datos.usuario }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Nombres</td>
-                        <td class="table-info">{{ nombres }}</td>
+                        <td class="table-info">{{ datos.nombres }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Apellidos</td>
-                        <td class="table-info">{{ apellidos }}</td>
+                        <td class="table-info">{{ datos.apellidos }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Sede</td>
-                        <td class="table-info">{{ sede }}</td>
+                        <td class="table-info">{{ datos.sede }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Facultad</td>
-                        <td class="table-info">{{ facultad }}</td>
+                        <td class="table-info">{{ datos.facultad }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Grado</td>
-                        <td class="table-info">{{ grado }}</td>
+                        <td class="table-info">{{ datos.grado }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">Carrera</td>
-                        <td class="table-info">{{ carrera }}</td>
+                        <td class="table-info">{{ datos.carrera }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">PAPA</td>
-                        <td class="table-info">{{ PAPA }}</td>
+                        <td class="table-info">{{ datos.PAPA }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">PAPPI</td>
-                        <td class="table-info">{{ PAPPI }}</td>
+                        <td class="table-info">{{ datos.PAPPI }}</td>
                     </tr>
                     <tr>
                         <td class="table-item">PA</td>
-                        <td class="table-info">{{ PA }}</td>
+                        <td class="table-info">{{ datos.PA }}</td>
                     </tr>
                     </table>
             </div>
+            {% else %}
+            No hay información disponible
+            {% endif %}
         </div>
 
     </article>

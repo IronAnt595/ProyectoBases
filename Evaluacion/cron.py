@@ -39,17 +39,19 @@ def informacionEstudiante(username):
         datos = {}
         cursor.execute("call sp_infoest(%s)",[username])
         resultado = cursor.fetchone()
-        datos['usuario'] = username
-        datos['nombres'] = resultado[0]
-        datos['apellidos'] = resultado[1]
-        datos['sede'] = resultado[8]
-        datos['facultad'] =resultado[7]
-        datos['grado'] = resultado[5]
-        datos['carrera'] = resultado[6]
-        datos['PAPA'] = resultado[2]
-        datos['PAPPI'] = resultado[3]
-        datos['PA'] = resultado[4]
-        return datos
+        if resultado:
+            datos['usuario'] = username
+            datos['nombres'] = resultado[0]
+            datos['apellidos'] = resultado[1]
+            datos['sede'] = resultado[8]
+            datos['facultad'] =resultado[7]
+            datos['grado'] = resultado[5]
+            datos['carrera'] = resultado[6]
+            datos['PAPA'] = resultado[2]
+            datos['PAPPI'] = resultado[3]
+            datos['PA'] = resultado[4]
+            return datos
+        return None
     
 def informacionAsignaturas(username):
     with connection.cursor() as cursor:
@@ -120,12 +122,18 @@ def obtenerGruposProfesor(username):
 def pie_chart(datos):
     if datos:
         
+        colores = {1:"#61CE5B",
+                   2:"#3857BC",
+                   3:"#AE7DF0",
+                   4:"#FF8B47",
+                   5:"#F3DA49"}
         # Crear gráfico
         labels = list(datos.keys())
         values = list(datos.values())
+        colors = [colores.get(i) for i in labels]
 
         fig, ax = plt.subplots()
-        ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=90)
+        ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors)
         ax.axis('equal')
 
         # Convertir el gráfico en una representación base64
