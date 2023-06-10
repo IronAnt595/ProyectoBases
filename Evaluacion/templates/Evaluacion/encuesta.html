@@ -4,22 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/encuesta.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
     <title>Encuesta</title>
 </head>
 <body>
-    Inicio de encuesta:
-    <a href="{% url 'evaluacion:info_encuesta' %}">Volver</a>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">EVALUACIÓN INTEGRAL</h1>
+        </div>
+    
+    <div class="box-questions">
     {% if asignaturas %}
-    {{ tipo }}
+    <p class="tipe"> Calificación:  {{tipo }}  </p> 
     {% else %}
-    No hay grupos
+    <p class="error"> No hay grupos </p>
     {% endif %}
-    <h1>Pregunta {{ numpregunta }}</h1>
-    <p><strong> Seleccione por lo menos una opción por grupo, en caso contrario no podrá continuar con la encuesta:</strong></p>
-    {{ descripcion }}
+    <h1 class="q-number">Pregunta {{ numpregunta }}</h1>
+    <p class="q-tip"> Seleccione por lo menos una opción por grupo, en caso contrario no podrá continuar con la encuesta:</p>
+    <p class="q-question">{{ descripcion }}</p>
 
-    Respuestas: {{ respuestas }}
+    <p class="answers"> Respuestas: {{ respuestas }} </p>
 
+    <div class="box-answers">
+    <p class="answers">    
     {% for asignatura in asignaturas %}
         {% for key, value in respuestas.items %}
             {% if key == asignatura.codigogrupo %}
@@ -27,30 +50,42 @@
             {% endif %}
         {% endfor %}
     {% endfor %}
-
+    </p>
     
 
         <form action="{% url 'evaluacion:procesar_pregunta' %}" method="POST" onsubmit="false">
             {% csrf_token %}
             {% for asignatura in asignaturas %}
-            <div>
-                <p>{{ asignatura.nombre }} [{{ asignatura.profesor }}]</p>
+            <div class="box-select">
+                <p class="select_info">{{ asignatura.nombre }} [{{ asignatura.profesor }}]</p>
+                
                 {% if tipo == 'Numérica' %}
+                
                     {% if respuestas %}
+                    <div class="select_radio">
                     {% for i in rango %}
                         {% for key, value in respuestas.items %}
+                            
                             {% if key == asignatura.codigogrupo %}
+                                <div class="radios">
                                 <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}" {% if value == i  %} checked {% endif %}>
                                 <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
+                                </div>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
+                    </div>
                     {% else %}
+                    <div class="select_radio">
                     {% for i in rango %}
+                    <div class="radios">
                         <input type="radio" name="respuesta_{{ asignatura.codigogrupo }}" id="respuesta{{ i }}_{{ asignatura.codigogrupo }}" value="{{ i }}">
                         <label for="respuesta{{ i }}_{{ asignatura.codigogrupo }}">{{ i }}</label>
+                    </div>
                     {% endfor %}
+                </div>
                     {% endif %}
+                <hr class="divide">
                 {% elif tipo == 'Abierta' %}
                     {% if respuestas %}
                         {% for key, value in respuestas.items %}
@@ -62,19 +97,26 @@
                         <input type="text" id="respuesta_{{ asignatura.codigogrupo }}" name="respuesta_{{ asignatura.codigogrupo }}">
                     {% endif %}
                 {% endif %}
-            </div>
+            
             {% endfor %}
-
+            </div>
+            <div class="box-buttoms">
             {% if numpregunta > 1 %}
-                <input type="submit" value="Anterior" name="accion">
+                <input class="buttom" type="submit" value="Anterior" name="accion">
             {% endif %}
 
             {% if numpregunta < longitud %}
-                <input type="submit" value="Siguiente" name="accion">
+                <input class="buttom" type="submit" value="Siguiente" name="accion">
             {% else %}
-                <input type="submit" value="Finalizar" name="accion">
+                <input class="buttom" type="submit" value="Finalizar" name="accion">
             {% endif %}
-            
+        </div>
+        </div>   
         </form>
+    </div>
+    <div class="box-return">
+    <a href="{% url 'evaluacion:inicio' %}" class="return">Volver al menú</a>
+    </div>
+    </article>
 </body>
 </html>
