@@ -8,6 +8,7 @@ DROP PROCEDURE IF EXISTS sp_calinumerica;
 DROP PROCEDURE IF EXISTS sp_caliabierta;
 DROP PROCEDURE IF EXISTS sp_promtotaleval;
 DROP PROCEDURE IF EXISTS sp_diagnum;
+DROP PROCEDURE IF EXISTS sp_obtenerprof;
 DROP PROCEDURE IF EXISTS sp_aggpregunta;
 DROP PROCEDURE IF EXISTS sp_modpregunta;
 DROP PROCEDURE IF EXISTS sp_delpregunta;
@@ -118,6 +119,13 @@ CREATE PROCEDURE sp_diagnum (idprof INT, numpre INT, codgru INT)
 		SELECT eva_Calificacion, count(eva_Calificacion) FROM evaluacion_numerica NATURAL JOIN grupo
         WHERE pre_Numero=numpre AND pro_ID=idprof AND codgru
         GROUP BY eva_Calificacion;
+    END $$
+    
+-- Obtener si un profesor existe
+
+CREATE PROCEDURE sp_obtenerprof(nombre VARCHAR(45), apellido VARCHAR(45))
+	BEGIN
+		SELECT * FROM profesor JOIN persona ON per_ID=pro_ID WHERE nombre=per_nombres AND apellido=per_apellidos;
     END $$
     
 -- Agregar una pregunta a la tabla Pregunta
