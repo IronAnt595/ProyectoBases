@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegir el docente</title>
+</head>
+<body>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <form action="{% url 'evaluacion:eleccion_docente' %}" method="post">
+        {% csrf_token %}
+        <label for="docente">Nombre del docente</label>
+        <input type="text" name="docente" id="docente" required>
+        <a href="{% url 'evaluacion:inicio' %}">Volver</a>
+        <input type="submit" value="Buscar Profesor">
+    </form>
+    
+</body>
+</html>

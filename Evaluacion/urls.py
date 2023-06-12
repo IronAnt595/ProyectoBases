@@ -19,4 +19,5 @@ urlpatterns = [
     path('documentacion/', views.documentacion, name='documentacion'),
     path('resultados_numericos/', views.resultados_numericos, name='resultados_numericos'),
     path('resultados_abiertos/', views.resultados_abiertos, name='resultados_abiertos'),
+    path('eleccion_docente/', views.eleccion_docente, name='eleccion_docente'),
 ]

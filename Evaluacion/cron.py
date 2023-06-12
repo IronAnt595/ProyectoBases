@@ -145,3 +145,13 @@ def pie_chart(datos):
 
         return imagen_base64
         
+#Obtener si un profesor existe
+def obtenerProfesores(nombre, apellido):
+    with connection.cursor() as cursor:
+        cursor.execute("call sp_obtenerprof(%s,%s)",[nombre,apellido])
+        resultados = cursor.fetchone()
+        print(resultados)
+        if resultados:
+            return resultados[2] #Si existe el profesor, se devuelve su usuario
+        else:
+            return None
