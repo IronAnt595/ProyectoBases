@@ -4,13 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/preguntas_evaluativas.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
     <title>Preguntas Evaluativas</title>
 </head>
 <body>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">Preguntas Evaluativas</h1>
+        </div>
+
+    <div class="box-text">
     {% if asignatura or profesor %}
-        Preguntas Evaluativas:
         {% if asignatura %}
-            <h1>Preguntas con respecto a la asignatura:</h1>
+            <h2>Preguntas con respecto a la asignatura:</h2>
             <ol>
             {% for pregunta in asignatura %}
                 <li>{{ pregunta }}</li>
@@ -19,7 +41,7 @@
         {% endif %}
 
         {% if profesor %}
-            <h1>Preguntas con respecto al profesor:</h1>
+            <h2>Preguntas con respecto al profesor:</h2>
             <ol>
             {% for pregunta in profesor %}
                 <li>{{ pregunta }}</li>
@@ -29,10 +51,14 @@
     {% else %}
         <h1>No hay preguntas evaluativas</h1>
     {% endif %}
+    </div>
+    </article>
 
-    <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-    <a href="{% url 'evaluacion:documentacion' %}">Documentación</a>
-    <a href="{% url 'evaluacion:resultados_numericos' %}">Consultar mis resultados</a>
-    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    <div class="box-buttoms">
+    <a href="{% url 'evaluacion:inicio' %}" class="return">Volver</a>
+    <a href="{% url 'evaluacion:documentacion' %}" class="info">Documentación</a>
+    <a href="{% url 'evaluacion:resultados_numericos' %}" class="results">Consultar mis resultados</a>
+    <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </div>
 </body>
 </html>
