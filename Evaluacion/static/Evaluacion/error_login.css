@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+html {
+    font-size: 62.5%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+article {
+    padding-top: 9rem; /* Add some padding to the top of the body equal to the height of the navigation bar */
+}
+
+.cabecera {
+    display: flex;
+    width: 100%;
+}
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 6rem;
+    position: fixed;
+    background: #226F54;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-texts {
+    margin-left: 30vw;
+    font-size: 1.3rem ;
+    font-family: 'League Spartan', sans-serif;
+    line-height: 1.4;
+    color:white;
+    text-shadow: 2px 2px 7px black;
+}
+
+.logo img{
+    width: 150px;
+    justify-self: flex-end;
+}
+.box-title{
+    display: flex;
+   
+    padding: 10px 20px;
+   
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.h1{
+    background-color: #DA2C38;
+    margin:  10px auto;
+    padding: 10px 20px;
+    box-sizing: content-box;
+    display: inline-block;
+    border-radius: 20px;
+    color: white;
+    font-size: 3rem;
+    font-family: 'League Spartan', sans-serif;
+        
+}
+
+.box-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding: 10px 20px;
+    margin: 10px 200px;
+}
+
+
+.rol{
+    background-color: #226F54;
+    box-sizing: content-box; 
+    text-align: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 1rem;
+    font-weight: 550;
+    color: white;
+    font-size: 2rem;
+    font-family: 'League Spartan', sans-serif;
+    box-shadow: 10px 10px 14px -6px rgba(0,0,0,0.54);
+    margin-top: 40px;
+}
+
+
+.rol:hover{
+    padding: 1rem;
+    background-color: #215e49;
+}
+
+.box-text p {
+    padding: 0px 40px 0px 0px;
+    text-align: justify;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size:1.8rem;
+}
+
+
+.box-buttom{
+    display: flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-end; 
+}
+

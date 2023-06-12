@@ -3,19 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegir el docente</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/eleccion_docente.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
+    
+    <title>Búsqueda por docente</title>
 </head>
 <body>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">Ingrese los datos correspondientes</h1>
+        </div>
     {% if error %}
-        <p>{{ error }}</p>
+        <p class="error">{{ error }}</p>
     {% endif %}
+
     <form action="{% url 'evaluacion:eleccion_docente' %}" method="post">
         {% csrf_token %}
-        <label for="docente">Nombre del docente</label>
-        <input type="text" name="docente" id="docente" required>
-        <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-        <input type="submit" value="Buscar Profesor">
+        <div class="box-form">
+        <div class="box-docente">
+        <label  class="docente" for="docente">Nombre del docente:</label>
+        <input class="input" type="text" name="docente" id="docente" required>
+        </div>
+        <input class="submit" type="submit" value="Buscar Profesor">
+        </div>
     </form>
+
+    <div class="box-buttom">
+        <a href="{% url 'evaluacion:inicio' %}" class="return">Volver al menú</a>
+        <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </div>
+   
     
 </body>
 </html>

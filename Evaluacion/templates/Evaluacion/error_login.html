@@ -4,10 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error en Inicio de Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/error_login.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
+    <title>Error</title>
 </head>
 <body>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">Error</h1>
+        </div>
+    <div class="box-text">
     <p>No tiene permiso para ver esta página, inicie sesión con el rol y usuario correcto.</p>
-    <a href="{% url 'evaluacion:logout' %}">Elegir Rol</a>
+    </div>
+
+    <div class="box-buttom">
+    <a href="{% url 'evaluacion:logout' %}" class="rol">Elegir Rol</a>
+    </div>
+    </article>
 </body>
 </html>
