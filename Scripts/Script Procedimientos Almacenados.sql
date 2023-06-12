@@ -125,7 +125,8 @@ CREATE PROCEDURE sp_diagnum (idprof INT, numpre INT, codgru INT)
 
 CREATE PROCEDURE sp_obtenerprof(nombre VARCHAR(45), apellido VARCHAR(45))
 	BEGIN
-		SELECT * FROM profesor JOIN persona ON per_ID=pro_ID WHERE nombre=per_nombres AND apellido=per_apellidos;
+		SELECT * FROM profesor JOIN persona ON per_ID=pro_ID
+        WHERE per_nombres=nombre AND per_apellidos=apellido;
     END $$
     
 -- Agregar una pregunta a la tabla Pregunta
@@ -226,11 +227,17 @@ CREATE PROCEDURE sp_insProfesor(nombres VARCHAR(45), apellidos VARCHAR(45))
 CREATE FUNCTION generar_usuario(nombre VARCHAR(45), apellido VARCHAR(45)) RETURNS VARCHAR(10) DETERMINISTIC
 	BEGIN
 		DECLARE usuario VARCHAR(10);
+        START TRANSACTION;
         SET usuario = CONCAT(SUBSTRING(LOWER(nombre), 1, 5), SUBSTRING(LOWER(apellido), 1, 5));
         SET usuario = REPLACE(usuario, ' ', '');
         SET usuario = remover_acentos(usuario);
         SET usuario = LOWER(usuario);
+        IF (EXISTS(SELECT per_Usuario FROM persona WHERE per_Usuario=usuario)) THEN
+			ROLLBACK;
+		ELSE
         RETURN usuario;
+        END IF;
+        COMMIT;
     END $$
 
 -- Función para eliminar acentos
