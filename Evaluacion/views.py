@@ -198,7 +198,7 @@ def documentacion(request):
 @login_required()
 def resultados_numericos(request):
     #Obtener los resultados numéricos de la base de datos
-    if request.user.groups.filter(name='Profesor').exists():
+    if request.user.groups.filter(name='Profesor').exists() or request.user.groups.filter(name='Administrativo').exists():
         #Obtener las preguntas
         preguntass = obtenerPreguntas()
         preguntas = dict()
@@ -208,15 +208,26 @@ def resultados_numericos(request):
                 preguntas[numpregunta] = {'descripcion': pregunta[1],
                                         }
                 #Obtener los grupos del profesor
-                grupos = obtenerGruposProfesor(request.user.username) 
-                for grupo in grupos:
-                    codgrupo = grupo[0]
-                    asignatura = grupo[1]
-                    hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo) #Llamar a un procedimiento almacenado
-                    grafico=pie_chart(hola)
-                    preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
-                                                      'resultados': hola,
-                                                      'grafico': grafico,}   
+                if request.user.groups.filter(name='Profesor').exists():
+                    grupos = obtenerGruposProfesor(request.user.username) 
+                    for grupo in grupos:
+                        codgrupo = grupo[0]
+                        asignatura = grupo[1]
+                        hola = obtenerResultadosNumericos(request.user.username, numpregunta, codgrupo) #Llamar a un procedimiento almacenado
+                        grafico=pie_chart(hola)
+                        preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                        'resultados': hola,
+                                                        'grafico': grafico,} 
+                elif request.user.groups.filter(name='Administrativo').exists(): 
+                    grupos = obtenerGruposProfesor(request.session['docente']) 
+                    for grupo in grupos:
+                        codgrupo = grupo[0]
+                        asignatura = grupo[1]
+                        hola = obtenerResultadosNumericos(request.session['docente'], numpregunta, codgrupo) #Llamar a un procedimiento almacenado
+                        grafico=pie_chart(hola)
+                        preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                        'resultados': hola,
+                                                        'grafico': grafico,}  
         #Enviar a la vista
         context = {'preguntas': preguntas}
         return render(request, 'Evaluacion/resultados_numericos.html', context)
@@ -227,7 +238,7 @@ def resultados_numericos(request):
 @login_required()
 def resultados_abiertos(request):
     #Obtener los resultados abiertos de la base de datos
-    if request.user.groups.filter(name='Profesor').exists():
+    if request.user.groups.filter(name='Profesor').exists() or request.user.groups.filter(name='Administrativo').exists():
         #obtener las preguntas
         preguntass = obtenerPreguntas() 
         preguntas = dict()
@@ -237,13 +248,22 @@ def resultados_abiertos(request):
                 preguntas[numpregunta] = {'descripcion': pregunta[1],
                                         }
                 #Obtener los grupos del profesor
-                grupos = obtenerGruposProfesor(request.user.username) 
-                for grupo in grupos:
-                    codgrupo = grupo[0]
-                    asignatura = grupo[1]
-                    hola = obtenerResultadosAbiertos(request.user.username, numpregunta, codgrupo)
-                    preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
-                                                        'resultados': hola,}
+                if request.user.groups.filter(name='Profesor').exists():
+                    grupos = obtenerGruposProfesor(request.user.username) 
+                    for grupo in grupos:
+                        codgrupo = grupo[0]
+                        asignatura = grupo[1]
+                        hola = obtenerResultadosAbiertos(request.user.username, numpregunta, codgrupo)
+                        preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                            'resultados': hola,}
+                elif request.user.groups.filter(name='Administrativo').exists():
+                    grupos = obtenerGruposProfesor(request.session['docente']) 
+                    for grupo in grupos:
+                        codgrupo = grupo[0]
+                        asignatura = grupo[1]
+                        hola = obtenerResultadosAbiertos(request.session['docente'], numpregunta, codgrupo)
+                        preguntas[numpregunta][codgrupo] = {'asignatura': asignatura,
+                                                            'resultados': hola,}
         #Enviar a la vista
         context = {'preguntas': preguntas}
 
@@ -253,6 +273,25 @@ def resultados_abiertos(request):
         return render(request, 'Evaluacion/error_login.html')
     
 #Vistas de directivo
+
+# Resultados por docente
+
+@login_required()
+def eleccion_docente(request):
+    if request.user.groups.filter(name='Administrativo').exists():
+        if request.method == 'POST':
+            docente = request.POST.get('docente')
+            nombre, apellido = docente.split(' ')
+            id=obtenerProfesores(nombre, apellido)
+            if id:
+                request.session['docente'] = id
+                return redirect('evaluacion:resultados_numericos')
+            else:
+                context={'error': 'No se encontró el docente'}
+                return render(request, 'Evaluacion/eleccion_docente.html', context)
+        return render(request, 'Evaluacion/eleccion_docente.html')
+    else:
+        return render(request, 'Evaluacion/error_login.html')
 
 # # Modficación de preguntas
 # # Mostrar Preguntas
