@@ -11,7 +11,7 @@ html {
 }
 
 article {
-    padding-top: 7rem; /* Add some padding to the top of the body equal to the height of the navigation bar */
+    padding-top: 9rem; /* Add some padding to the top of the body equal to the height of the navigation bar */
 }
 
 .cabecera {
@@ -30,46 +30,6 @@ article {
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
 }
 
-.box-content{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    align-content: center;
-   
-}
-.sidebar{
-    left: 0;
-    width:20rem;
-    background-color: #226F54;
-    border-radius: 0px 20px 20px 0px;
-    
-
-}
-
-.sidebar ul a {
-    display: block;
-    height: 100%;
-    width: 100%;
-    line-height: 6.5rem;
-    font-size: 2rem;
-    color: white;
-    padding-left: 2rem;
-    box-sizing: border-box;
-
-    transition:.4s;
-
-}
-
-.sidebar ul li:hover a{
-    padding-left: 4rem;
-}
-
-.sidebar ul a i{
-    margin-right: 1.6rem;
-}
-
-
-
 .navbar-texts {
     margin-left: 30vw;
     font-size: 1.3rem ;
@@ -79,26 +39,24 @@ article {
     text-shadow: 2px 2px 7px black;
 }
 
-
 .logo img{
     width: 150px;
     justify-self: flex-end;
 }
-
-
-
-.box_title{
-    margin: auto;
-    text-align: start;
-    padding: 10px 10px 10px 0px;
-    margin-left: 30rem;
-}
-
-.article__h1{
-    background-color: #226F54;
-    margin:10px auto;
+.box-title{
+    display: flex;
+   
     padding: 10px 20px;
-    box-sizing: border-box;
+   
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.h1{
+    background-color: #215e49;
+    margin:  10px auto;
+    padding: 10px 20px;
+    box-sizing: content-box;
     display: inline-block;
     border-radius: 20px;
     color: white;
@@ -107,51 +65,59 @@ article {
         
 }
 
-.table{
-    
-    font-family: 'Roboto', sans-serif;
-    font-size:1.8rem ;
-    margin-left: 10rem;
-}
-.box-content table {
-    justify-content: center;
-}
-table{
-    border-collapse: collapse;
-    width: 40vw;
-
-}
-th,td {
-    border: 2px solid #226F54;
-}
-.table-info{
-    text-align: center;
-    padding: 0.7rem;
-    background-color: #F5F5F5;
-}
-.table-item{
-    background-color: #226F54;
-    color: white;
-    font-weight: 700;
-    padding: 7px;
-    text-align: center;
-    padding: 0.7rem;
-
-}
-.box-buttoms{
-    position: relative;
-    height: 7rem;
-    margin: 2rem;
-    border: 2rem;
+.box-text{
     display: flex;
-    align-items: flex-end;
-
-
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding: 10px 20px;
+    margin: 10px 200px;
 }
 
-.return{
-    background-color: #57B4E9;
-    display: inline-block;
+
+.results{
+    background-color: #226F54;
+    box-sizing: content-box; 
+    text-align: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 4rem;
+    font-weight: 550;
+    color: white;
+    font-size: 2.5rem;
+    font-family: 'League Spartan', sans-serif;
+    box-shadow: 10px 10px 14px -6px rgba(0,0,0,0.54);
+}
+
+
+.results:hover{
+    padding: 4rem;
+    background-color: #215e49;
+}
+
+.box-text p {
+    padding: 0px 40px 0px 0px;
+    text-align: justify;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size:1.8rem;
+}
+
+.box-info{
+    display: flex;
+    flex-direction: row;
+    
+    align-items: center;
+    align-content: center;
+    padding: 10px 20px;
+    margin: 10px 200px;
+    
+}
+
+.box-info a{
+
+    background-color: #87C38F;
     box-sizing: border-box;
     text-align: center;
     border-radius: 20px;
@@ -161,19 +127,25 @@ th,td {
     font-size: 1.8rem;
     font-family: 'League Spartan', sans-serif;
     box-shadow: 5px 5px 7px -6px rgba(0,0,0,0.54);
-    position:absolute;
-    margin-left: 4rem;
-    left: 0rem;
+    border: 2px solid #87C38F;
+    margin-right: 20px;
 
-    
 }
 
-.return:hover{
+.box-info a:hover{
     padding: 1rem;
-    background-color: #297cac;
-
+    background-color: #75ad7c;
+    border: 2px solid #75ad7c;
 }
 
+
+.box-buttom{
+    display: flex;
+    padding: 10px 20px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-content: flex-end; 
+}
 
 .logout{
     background-color: #DA2C38;
@@ -187,9 +159,8 @@ th,td {
     font-size: 1.8rem;
     font-family: 'League Spartan', sans-serif;
     box-shadow: 5px 5px 7px -6px rgba(0,0,0,0.54);
-    position:absolute;
-    margin-right: 4rem;
-    right: 0rem;
+    margin: 10px 200px;
+
 
     
 }

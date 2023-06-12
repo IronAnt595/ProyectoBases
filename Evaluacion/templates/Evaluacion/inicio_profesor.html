@@ -4,15 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/inicio_profesor.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
     <title>Inicio Profesor</title>
 </head>
 <body>
-    <h1>Bienvenido(a), Docente</h1>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
+
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">Bienvenido(a), Docente</h1>
+        </div>
+
+        <div class="box-text">
+            <p>Una vez culmine la fase de aplicación de la encuesta a estudiantes, podrá consultar sus resultados del periodo actual, haciendo clic en "Consultar mis resultados" y seleccionando el periodo deseado. Igualmente podrá consultar los resultados de periodos previos,  haciendo clic en "Consultar mis resultados" y seleccionando el periodo correspondiente en el botón azul que aparecerá en la parte superior. Asimismo, puede consultar el listado de preguntas evaluativas que conforman la Evaluación Integral o consultar documentación relacionada con el proyecto de evaluación docente EDIFICANDO.</p>
+            <a href="{% url 'evaluacion:resultados_numericos' %}" class="results">Consultar mis resultados</a>
+        </div>
+    
+    </article>
+
+    <div class="box-info">
     <a href="{% url 'evaluacion:preguntas_evaluativas' %}">Preguntas Evaluativas</a>
     <a href="{% url 'evaluacion:documentacion' %}">Documentación</a>
-    <a href="{% url 'evaluacion:resultados_numericos' %}">Consultar mis resultados</a>
+    </div>
 
-    
-    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    <div class="box-buttom">
+    <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </div>
 </body>
 </html>

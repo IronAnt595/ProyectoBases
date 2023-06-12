@@ -4,35 +4,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Evaluacion/resultados_numericos.css' %}">
+    <script src="https://kit.fontawesome.com/a9e228592b.js" crossorigin="anonymous"></script>
+    
     <title>Resultados Numéricos</title>
 </head>
 <body>
-    <h1>Resultados numéricos:</h1>
-    Calificación Numérica:
-    <br>
-    {% for pregunta, contenido in preguntas.items %}
-        <strong>Pregunta {{ forloop.counter }}:</strong><br>
+    <header class="cabecera">
+        <nav class="nav-bar">
+            <div class="navbar-texts">
 
-        {{ contenido.descripcion }}
+                <h1>EVALUACIÓN INTEGRAL DE DOCENTES Y CURSOS</h1>
+
+            </div>
+            <picture class="logo">
+                <img class="logo-img" src="{% static 'Evaluacion/escudoUnal.svg' %}" alt="Escudo UNAL">
+            </picture>
+        </nav>
+    </header>
+    <article class="box-content">
+        <div class="box-title">
+            <h1 class="h1">Resultados</h1>
+        </div>
+    <div class="box-text">
+        
+    <h2 class="tipe">Calificación Numérica:</h2>
+   
+    <br>
+    <div class="box-result">
+    {% for pregunta, contenido in preguntas.items %}
+        
+        <h1 class="q-number" style="margin-top: 20px;"><strong>Pregunta {{ forloop.counter }}:</strong></h1> <br>
+
+        <p class="description">{{ contenido.descripcion }}</p>
 
         {% for grupo, resultados in contenido.items %}
 
             {% if grupo != "descripcion" %}
-                <div>Grupo {{ grupo}} {{ resultados.asignatura }}:
+                <div class="group">Grupo {{ grupo}} {{ resultados.asignatura }}: </div>
                     {% if resultados.resultados %}
-                        <div><img src="data:image/png;base64,{{ resultados.grafico }}"></div>
+                        <div class="img"><img src="data:image/png;base64,{{ resultados.grafico }}"></div>
                     {% else %}
-                        <div>No hay resultados disponibles</div>
+                        <br>
+                        <div class="error">No hay resultados disponibles</div>
                     {% endif %}
                     
-                </div>
+                
             {% endif %}
 
         {% endfor %}
-        <br>
+       
     {% endfor %}
-    <a href="{% url 'evaluacion:inicio' %}">Volver</a>
-    <a href="{% url 'evaluacion:resultados_abiertos' %}">Calificación Abierta</a>
-    <a href="{% url 'evaluacion:logout' %}">Cerrar sesión</a>
+    <br>
+    </div>
+
+    </div>
+    </article>
+    <div class="box-buttoms">
+    <a href="{% url 'evaluacion:inicio' %}" class="return">Volver al menú</a>
+    <a href="{% url 'evaluacion:resultados_abiertos' %}" class="results">Calificación Abierta</a>
+    <a href="{% url 'evaluacion:logout' %}" class="logout">Cerrar sesión</a>
+    </div>
 </body>
 </html>
