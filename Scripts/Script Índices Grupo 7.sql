@@ -6,13 +6,6 @@ USE proyecto3;
 
 ALTER TABLE persona
 	ADD UNIQUE INDEX idx_Usuario (per_Usuario);
-    
--- Creación de índices en tabla de Estudiante
-
--- Creación de índice para carrera
-
-ALTER TABLE estudiante
-	ADD INDEX idx_Carrera (car_Codigo);
 
 -- Creación de índices para tabla Grupo
 
